@@ -1,5 +1,12 @@
+package kmp;
+
 import java.util.Arrays;
 
+/**
+ * 参考资料：
+ * https://www.cnblogs.com/yjiyjige/p/3263858.html
+ * https://www.zhihu.com/question/21923021
+ */
 public class Kmp {
 
 
@@ -61,13 +68,39 @@ public class Kmp {
                 k = k + 1;
                 j++;
             } else if (k == 0) {
-                // 尝试 k 的可能值的过程已经到 k=0 这个位置了，停止尝试，
+                // 尝试 k 的可能值的过程已经到 k=0 这个位置了，
+                // 而且 0 这个位置依然和 j 这个位置的元素依然不相等，停止尝试，
                 // 把next[j] 的值置为 0
                 next[j] = 0;
                 // 此时 k 的值就是 next[j]，即 k == 0，所以 k 不动，j 向后移动一位
                 j++;
             } else {
                 // 见分析图
+                k = next[k];
+            }
+        }
+        return next;
+    }
+
+    /**
+     * 和上个方法思路一致，已知条件改为 next[j] = k，去推导 next[j+1] 的值
+     */
+    private int[] calculateNext2(char[] pattern) {
+        if (pattern == null) return null;
+        int[] next = new int[pattern.length];
+        next[0] = -1;
+        next[1] = 0;
+        int j = 1;
+        int k = next[j];
+        while (j < next.length - 1) {
+            if (pattern[j] == pattern[k]) {
+                next[j+1] = k + 1;
+                k = k + 1;
+                j = j + 1;
+            } else if (k == 0) {
+                next[j+1] = 0;
+                j++;
+            } else {
                 k = next[k];
             }
         }
@@ -107,7 +140,8 @@ public class Kmp {
 
         int[] next =
 //                calculateNextZhihu(pattern.toCharArray());
-                calculateNext(pattern.toCharArray());
+//                calculateNext(pattern.toCharArray());
+                calculateNext2(pattern.toCharArray());
 
         System.out.println(Arrays.toString(next));
 
