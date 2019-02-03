@@ -3,74 +3,106 @@ package leetcode.tencent.autumn2018.q4;
 import java.util.Arrays;
 
 /**
- * ç»™å®šä¸¤ä¸ªå¤§å°ä¸º m å’Œ n çš„æœ‰åºæ•°ç»„ nums1 å’Œ nums2ã€‚
- * <p>
- * è¯·ä½ æ‰¾å‡ºè¿™ä¸¤ä¸ªæœ‰åºæ•°ç»„çš„ä¸­ä½æ•°ï¼Œå¹¶ä¸”è¦æ±‚ç®—æ³•çš„æ—¶é—´å¤æ‚åº¦ä¸º O(log(m + n))ã€‚
- * <p>
- * ä½ å¯ä»¥å‡è®¾ nums1 å’Œ nums2 ä¸ä¼šåŒæ—¶ä¸ºç©ºã€‚
- * <p>
- * ç¤ºä¾‹ 1:
- * <p>
- * nums1 = [1, 3]
- * nums2 = [2]
- * <p>
- * åˆ™ä¸­ä½æ•°æ˜¯ 2.0
- * ç¤ºä¾‹ 2:
- * <p>
- * nums1 = [1, 2]
- * nums2 = [3, 4]
- * <p>
- * åˆ™ä¸­ä½æ•°æ˜¯ (2 + 3)/2 = 2.5
+ * Created by Jason on 2019/1/12/0012.
  */
-public class Solution {
-
-    private final int[] EMPTY_ARRAY = new int[0];
-
-//    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-//
-//    }
-
-
-//    private int findTheKSmallestInTwoArrays(int[] arrayA, int[] arrayB, int k) {
-//        if (arrayA.length > arrayB.length) {
-//            // è§„å®š A æ•°ç»„çš„é•¿åº¦å§‹ç»ˆå°äºç­‰äº B æ•°ç»„ï¼Œå¦‚æœå‡ºç°ä¾‹å¤–æƒ…å†µï¼Œåˆ™æ‰‹åŠ¨è½¬åŒ–ä¸ºè§„å®šçš„æƒ…å†µ
-//            return findTheKSmallestInTwoArrays(arrayB, arrayA, k);
-//        }
-//        if (arrayA.length == 0) {
-//            // ä¸¤ä¸ªæ•°ç»„ä¸­è¾ƒçŸ­çš„ A æ•°ç»„å‡å¦‚åœ¨åˆ‡å‰²è¿‡ç¨‹ä¸­ï¼Œè¢«åˆ‡å‰²åˆ°é•¿åº¦ä¸º 0
-//            return arrayB[k - 1];
-//        }
-//        if (k == 1) {
-//            // é—®é¢˜è§„æ¨¡ç¼©å°çš„è¿‡ç¨‹ä¸­ï¼Œé™¤äº†å…¶ä¸­ä¸€ä¸ªæ•°ç»„é•¿åº¦å˜ä¸º 0 ä»¥å¤–ï¼Œå·²æœ‰å¯èƒ½ k ä¸‹é™åˆ° 1
-//            return Math.min(arrayA[0], arrayB[0]);
-//        }
-//
-//        int pa = arrayA.length / 2;
-//        int pb = arrayB.length / 2;
-//
-//        if (arrayA[pa] <= arrayB[pb]) {
-//            int[] newArrayA;
-//            if (pa < arrayA.length - 1) {
-//                newArrayA = Arrays.copyOfRange(arrayA, pa + 1, arrayA.length - 1);
-//            } else {
-//                newArrayA = EMPTY_ARRAY;
-//            }
-//            return findTheKSmallestInTwoArrays(newArrayA, arrayB, k - pa);
-//        }
-//
-//        if (arrayA[pa] > arrayB[pb]) {
-//            int[] newArrayB;
-//            if (pb < arrayB.length - 1) {
-//                newArrayB = Arrays.copyOfRange(arrayB, pb + 1, arrayB.length - 1);
-//            } else {
-//                newArrayB = EMPTY_ARRAY;
-//            }
-//            return findTheKSmallestInTwoArrays(arrayA, newArrayB, k - pb);
-//        }
-//    }
-
+class Solution {
 
     public static void main(String[] args) {
+//        double result = new Solution().findMedianSortedArrays(
+//                new int[]{1, 3},
+//                new int[]{2}
+//        );
 
+        double result = new Solution().findMedianSortedArrays(
+                new int[]{1, 2},
+                new int[]{3, 4}
+        );
+
+        System.out.println(result);
+    }
+
+
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int total = nums1.length + nums2.length;
+        double mid1 = findKSmallestInArrays(nums1, nums2, total / 2 + 1);
+        if (total % 2 == 0) {
+            double mid2 = findKSmallestInArrays(nums1, nums2, total / 2);
+            return (mid1 + mid2) / 2;
+        } else {
+            return mid1;
+        }
+    }
+
+    /**
+     * 1. ÔÚÁ½¸öÓĞĞòÊı×éÀïÑ°ÕÒÖĞÎ»Êı¡£¿ÉÒÔÈÏÎªÔÚÁ½¸öÊı×é¸÷ÇĞÒ»µ¶£¬Ã¿¸öÊı×é±»ÇĞ¸îÎªÁ½¸öĞÂµÄ×ÓÊı×é¡£
+     * ÕâÑù²úÉú 4 ¸öĞÂµÄ×ÓÊı×é£¬Èç¹û×ó±ßµÄÁ½¸ö×ÓÊı×éµÄ×î´óÖµĞ¡ÓÚµÈÓÚÓÒ±ßÁ½¸ö×ÓÊı×éµÄ×îĞ¡Öµ£¬ÄÇÃ´
+     * ÎÒÃÇ¿ÉÒÔÈÏÎªÏÂµ¶µÄÁ½¸öÎ»ÖÃ£¬ºÍÖĞÎ»ÊıµÄÎ»ÖÃÃÜÇĞÏà¹Ø£¨¿ÉÄÜºÍÁ½¸öÏÂµ¶µÄÎ»ÖÃ¶¼ÓĞ¹ØÏµ£¬
+     * Ò²¿ÉÄÜÖ»ºÍÆäÖĞÒ»µ¶µÄÎ»ÖÃÓĞ¹ØÏµ£©¡£
+     * <p>
+     * 2. Èç¹ûÁ½¸öÊı×éµÄ³¤¶ÈºÍÎªÅ¼Êı£¬ÄÇÃ´×ó±ßÁ½¸ö×ÓÊı×éµÄ³¤¶ÈºÍ Óë ÓÒ±ßÁ½¸ö×ÓÊı×éµÄ³¤¶ÈºÍ ÏàµÈ£¬
+     * Îª×Ü³¤¶ÈºÍµÄÒ»°ë¡£Èç¹ûÁ½¸öÊı×éµÄ³¤¶ÈºÍÎªÆæÊı£¬ÄÇÃ´×ó±ßÁ½¸ö×ÓÊı×éµÄ³¤¶ÈºÍ Óë ÓÒ±ßÁ½¸ö×ÓÊı×éµÄ
+     * ³¤¶ÈºÍÏà²î 1£¬ ²»Ò»¶¨Ë­´ó 1¡£
+     * <p>
+     * 3. Èç¹ûÁ½¸öÊı×éµÄ³¤¶È·Ö±ğÎª m£¬n£» ÕâÁ½¸öÊı×é°´ÉıĞòÖØĞÂÅÅ³ÉÒ»¸öĞÂµÄÊı×éÎª p ¡£ÄÇÃ´Èç¹û m+n ÎªÅ¼Êı£¬
+     * ÖĞÎ»Êı¾ÍÊÇ (p[(m+n)/2-1] + p[m+n/2])/2¡£ Èç¹û m+n ÎªÆæÊı£¬ÄÇÃ´ÖĞÎ»Êı¾ÍÊÇ p[(m+n)/2]¡£
+     * <p>
+     * 4. ÄÇÃ´ÔÚÁ½¸öÉıĞòÊı×éÖĞÑ°ÕÒÖĞÎ»ÊıµÄÎÊÌâ¿ÉÒÔ×ª»»Îª£¬ÔÚÁ½¸öÉıĞòÊı×éÄÚ²éÕÒµÚ k ´óÊıµÄÎÊÌâ£¬Ò²¿ÉÒÔËµ
+     * ÔÚÁ½¸öÉıĞòÊı×éÄÚ²éÕÒµÚ k Ğ¡ÊıµÄÎÊÌâ¡£
+     * <p>
+     * 5. Ò²¾ÍÊÇËµÎÊÌâ¿ÉÒÔ×ªÎª£¬ÔÚĞÂÊı×é p ÄÚ£¬Èç¹û m+n ÎªÅ¼Êı£¬ÕÒµ½µÚ (m+n)/2-1 ´óºÍµÚ (m+n)/2+1 Ğ¡µÄÁ½¸öÊı£»
+     * Èç¹û m+n ÎªÆæÊı£¬ÕÒµ½µÚ (m+n)/2+1 Ğ¡µÄÊı¡£
+     * <p>
+     * ËùÒÔÕâ¸öº¯ÊıµÄ¶¨Òå¾ÍÊÇÔÚÁ½¸öÊı×éÄÚÕÒµ½µÚ k Ğ¡µÄÊı£¬ÏÔÈ» k >= 1
+     * <p>
+     * 6. ÎÊÌâ1£º ¶ÔÓÚÁ½¸öÉıĞòÊı×é£¬A ºÍ B£¬ºÏÎªÒ»¸öÉıĞòÊı×é£¬ÕÒÆäÖĞµÚ k Ğ¡µÄÔªËØ¡£
+     * <p>
+     * ÎÊÌâ2£º ¶ÔÓÚÁ½¸öÉıĞòÊı×é£¬A ºÍ B£¬°ÑÊı×é A µÄµÚ a Ğ¡ÔªËØºÍÊı×é B µÄµÚ k -a Ğ¡ÔªËØ£¬½øĞĞ±È½Ï,£¨a < k£©¡£
+     * 6.1 Èô A[a - 1] < B [k - a - 1] , Çó A Êı×éµÄ×ÓĞòÁĞ A[a ~ end] ºÍ B Êı×é£¬
+     * ÕâÁ½¸öÊı×éºÏ²¢ÎªÒ»¸öĞÂµÄÉıĞòÊı×éºó£¬ µÚ k - a Ğ¡µÄÔªËØ¡£
+     * 6.2 Èô A[a - 1] > B [k - a - 1], Çó B Êı×éµÄ×ÓĞòÁĞ B [k - 1 ~ end] ºÍ A Êı×é£¬
+     * ÕâÁ½¸öÊı×éºÏ²¢ÎªÒ»¸öĞÂµÄÉıĞòÊı×éºó£¬µÚ a Ğ¡µÄÔªËØ
+     * 6.3 Èô A[a -1] == B[k - a - 1], ÕâÁ½¸öÊıÍ¬Ê±Îª A ºÍ B ºÏ²¢ÎªÒ»¸öĞÂµÄÉıĞòÊı×éºó£¬µÚ k Ğ¡µÄÔªËØ¡£
+     * ÔÚÕâ¸öºÏ³ÉºóµÄĞÂÊı×éÀï£¬ A[a - 1], ºÍ B[k - a - 1] ÕâÁ½¸öÊı£¬Ë­Ç°Ë­ºóÎŞËùÎ½¡£
+     * <p>
+     * <p>
+     * ÎÊÌâÒ» ºÍ ÎÊÌâ¶ş±¾ÖÊÉÏÊÇÒ»¸öÎÊÌâ£¬µ«ÊÇÎÊÌâ¶şÏà¶ÔÓÚÎÊÌâÒ»£¬ÔÚÖ¸¶¨Ò»¸ö a µÄÇé¿öÏÂ£¬ËõĞ¡ÁËÎÊÌâ¹æÄ££¬
+     * °Ñ´óÎÊÌâ×ª»¯ÎªÁË±¾ÖÊÒ»ÑùµÄĞ¡ÎÊÌâ£¬±ãÓÚµİ¹é¡£
+     */
+    public double findKSmallestInArrays(int[] arrayA, int[] arrayB, int k) {
+        if (arrayA.length > arrayB.length) {
+            return findKSmallestInArrays(arrayB, arrayA, k);
+        }
+        // ×ßµ½ÕâÀïÎÒÃÇ¿ÉÒÔÈÏÎª arrayA Ê¼ÖÕ±È arrayB ¶ÌÁË£¨Ğ¡ÓÚµÈÓÚ£©
+        if (arrayA.length == 0) {
+            // ÔÚ°ÑÎÊÌâ½øĞĞÇĞ¸îµÄ¹ı³ÌÖĞ£¬ÆäÖĞÒ»¸öÊı×é±»ÇĞ¸îÎªÁË 0
+            return arrayB[k - 1];
+        }
+        if (k == 1) {
+            return Math.min(arrayA[0], arrayB[0]);
+        }
+
+        /**
+         * »®·Ö pa ÒÀ¾İ£¬Ê×ÏÈ±ØĞë´óÓÚµÈÓÚ 1£¨ÒòÎªÇóµÚ pa ´ó£©
+         * »¹µÃ±È k Ğ¡£¬µÈÓÚ k »òÕß´óÓÚ k £¬pb ¾ÍÃ»·¨»®·ÖÁË
+         */
+        int pa = Math.min(Math.max(arrayA.length / 2, 1), k - 1);
+//        int pa = Math.max(Math.min(arrayA.length / 2, k - 1), 1);
+        int pb = k - pa;
+
+        if (arrayA[pa - 1] > arrayB[pb - 1]) {
+            int[] newArrayA = Arrays.copyOfRange(arrayA, 0, pa);
+            int[] newArrayB = Arrays.copyOfRange(arrayB, pb, arrayB.length);
+            // ÌÔÌ­ÁË B Êı×éÀïÇ° pb ¸öÊı£¬ ÔÚÊı×é A ÄÚ´ÓµÚ pa ¸öÊı¿ªÊ¼¶¼´óÓÚµÈÓÚ A[pa - 1]
+            // ËùÒÔĞÂÊı×éµÄ²éÕÒ¹æÂÉÈçÏÂ
+            return findKSmallestInArrays(newArrayA, newArrayB, pa);
+        } else if (arrayA[pa - 1] < arrayB[pb - 1]) {
+            int[] newArrayA = Arrays.copyOfRange(arrayA, pa, arrayA.length);
+            int[] newArrayB = Arrays.copyOfRange(arrayB, 0, pb);
+            // ÌÔÌ­ÁË A Êı×éÀïÇ° pa ¸öÊı£¬ ÔÚÊı×é A ÄÚ´ÓµÚ pa ¸öÊı¿ªÊ¼¶¼´óÓÚµÈÓÚ A[pa - 1]
+            // ËùÒÔĞÂÊı×éµÄ²éÕÒ¹æÂÉÈçÏÂ
+            return findKSmallestInArrays(newArrayA, newArrayB, pb);
+        } else {
+            return arrayA[pa - 1];
+        }
     }
 }
