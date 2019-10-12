@@ -42,7 +42,7 @@ public class LongestCommonSubString {
      * resultMatrix[i][j] = resultMatrix[i-1][j-1] + 1;
      *
      * 也就是说针对最外层 i 对应的 for 循环的的 s1.length 次迭代进行过程中，
-     * 对于每个 i ，这次的迭代只可能关心第 i - 1 次的结果（i >= 2），
+     * 对于每个 i ，这次的迭代只可能关心第 i - 1 次的结果（i >= 2），即上一次迭代的结果
      * 但是二位数组 resultMatrix 存储了前面每一次迭代的结果，这里存在空间的浪费，
      * 是可以优化的点。
      *

@@ -22,6 +22,11 @@ class Solution {
         if (nums == null || nums.length < 2) {
             throw new IllegalArgumentException();
         }
+        /**
+         * 建立一个哈希表，key 为值， value 为索引
+         * 比如我要在这个哈希表中找 9 个这个数字，那就以 9 为 key 从这个哈希表中查找，
+         * 如果找到了， value 即为 9 对应的索引。
+         */
         Map<Integer, Integer> cache = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             // 查找根据当前遍历到的第 i 个元素

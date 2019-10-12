@@ -39,7 +39,10 @@ public class Solution {
                         currentRow[j] = 1;
                     } else {
                         currentRow[j] = lastRow[j-1] + 1;
-                        if (i + j - (currentRow[j]) + 2 == charArray.length) {
+                        // 此时说明已发现一个公共子串，我们需要验证这个找到的公共子串是否是原先字符串的回文子串
+                        // 由于两个字符串正好逆序，所以只需要判断这个公共子串在第一个字符串中的起始位置和这个公共子串
+                        // 在第二个字符串中的结束位置相加再加 1 是否等于原字符串的长度即可。
+                        if (i + j - currentRow[j] + 2 == charArray.length) {
                             // 这确实是一个回文串
                             if (currentRow[j] > longestPalindromeLength) {
                                 longestPalindromeLength = currentRow[j];
