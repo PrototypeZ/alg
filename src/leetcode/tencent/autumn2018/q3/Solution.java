@@ -43,7 +43,15 @@ public class Solution {
             if (index == null) {
                 length++;
             } else {
+                // index 表示出现此时出现重复字符在已经记录的当前最长串中的下标
+                // index - startIndex 表示 index 和 startIndex 之间的长度（不包含 index）
+                // length - (index - startIndex) 表示把当前串中位置 index 以前的元素都移除（不包含 index），剩余的串的长度
                 length = length - (index - startIndex);
+
+                // 把当前最长串中，index以前的元素都移除（包含index）
+                // 为什么前面计算 length 的时候算法是不移除 index 的，而真正移除元素的时候又是算上 index 的呢？
+                // 因为当遍历到重复元素的时候，除了把当前记录的最长串的重复元素移出之外，还要把此时遍历上的元素再加进去，
+                // 所以对于计算新的最长串长度而言，两者是等价的。上面的计算 length 表达式等价于 length - (index - startIndex) - 1 + 1
                 for (int j = startIndex; j <= index; j++) {
                     cache.remove(characters[j]);
                 }
