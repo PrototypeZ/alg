@@ -3,27 +3,27 @@ package leetcode.tencent.autumn2018.q6;
 /**
  *
  * https://leetcode-cn.com/problems/zigzag-conversion/
- * ½«Ò»¸ö¸ø¶¨×Ö·û´®¸ù¾Ý¸ø¶¨µÄÐÐÊý£¬ÒÔ´ÓÉÏÍùÏÂ¡¢´Ó×óµ½ÓÒ½øÐÐ Z ×ÖÐÎÅÅÁÐ¡£
+ * å°†ä¸€ä¸ªç»™å®šå­—ç¬¦ä¸²æ ¹æ®ç»™å®šçš„è¡Œæ•°ï¼Œä»¥ä»Žä¸Šå¾€ä¸‹ã€ä»Žå·¦åˆ°å³è¿›è¡Œ Z å­—å½¢æŽ’åˆ—ã€‚
  * <p>
- * ±ÈÈçÊäÈë×Ö·û´®Îª "LEETCODEISHIRING" ÐÐÊýÎª 3 Ê±£¬ÅÅÁÐÈçÏÂ£º
+ * æ¯”å¦‚è¾“å…¥å­—ç¬¦ä¸²ä¸º "LEETCODEISHIRING" è¡Œæ•°ä¸º 3 æ—¶ï¼ŒæŽ’åˆ—å¦‚ä¸‹ï¼š
  * <p>
  * L   C   I   R
  * E T O E S I I G
  * E   D   H   N
- * Ö®ºó£¬ÄãµÄÊä³öÐèÒª´Ó×óÍùÓÒÖðÐÐ¶ÁÈ¡£¬²úÉú³öÒ»¸öÐÂµÄ×Ö·û´®£¬±ÈÈç£º"LCIRETOESIIGEDHN"¡£
+ * ä¹‹åŽï¼Œä½ çš„è¾“å‡ºéœ€è¦ä»Žå·¦å¾€å³é€è¡Œè¯»å–ï¼Œäº§ç”Ÿå‡ºä¸€ä¸ªæ–°çš„å­—ç¬¦ä¸²ï¼Œæ¯”å¦‚ï¼š"LCIRETOESIIGEDHN"ã€‚
  * <p>
- * ÇëÄãÊµÏÖÕâ¸ö½«×Ö·û´®½øÐÐÖ¸¶¨ÐÐÊý±ä»»µÄº¯Êý£º
+ * è¯·ä½ å®žçŽ°è¿™ä¸ªå°†å­—ç¬¦ä¸²è¿›è¡ŒæŒ‡å®šè¡Œæ•°å˜æ¢çš„å‡½æ•°ï¼š
  * <p>
  * string convert(string s, int numRows);
- * Ê¾Àý 1:
+ * ç¤ºä¾‹ 1:
  * <p>
- * ÊäÈë: s = "LEETCODEISHIRING", numRows = 3
- * Êä³ö: "LCIRETOESIIGEDHN"
- * Ê¾Àý 2:
+ * è¾“å…¥: s = "LEETCODEISHIRING", numRows = 3
+ * è¾“å‡º: "LCIRETOESIIGEDHN"
+ * ç¤ºä¾‹ 2:
  * <p>
- * ÊäÈë: s = "LEETCODEISHIRING", numRows = 4
- * Êä³ö: "LDREOEIIECIHNTSG"
- * ½âÊÍ:
+ * è¾“å…¥: s = "LEETCODEISHIRING", numRows = 4
+ * è¾“å‡º: "LDREOEIIECIHNTSG"
+ * è§£é‡Š:
  * <p>
  * L     D     R
  * E   O E   I I

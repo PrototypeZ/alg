@@ -7,24 +7,24 @@ import java.util.Map;
 /**
  *
  * https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
- * ¸ø¶¨Ò»¸ö×Ö·û´®£¬ÇëÄãÕÒ³öÆäÖÐ²»º¬ÓÐÖØ¸´×Ö·ûµÄ ×î³¤×Ó´® µÄ³¤¶È¡£
+ * ç»™å®šä¸€ä¸ªå­—ç¬¦ä¸²ï¼Œè¯·ä½ æ‰¾å‡ºå…¶ä¸­ä¸å«æœ‰é‡å¤å­—ç¬¦çš„ æœ€é•¿å­ä¸² çš„é•¿åº¦ã€‚
 
- Ê¾Àý 1:
+ ç¤ºä¾‹ 1:
 
- ÊäÈë: "abcabcbb"
- Êä³ö: 3
- ½âÊÍ: ÒòÎªÎÞÖØ¸´×Ö·ûµÄ×î³¤×Ó´®ÊÇ "abc"£¬ËùÒÔÆä³¤¶ÈÎª 3¡£
- Ê¾Àý 2:
+ è¾“å…¥: "abcabcbb"
+ è¾“å‡º: 3
+ è§£é‡Š: å› ä¸ºæ— é‡å¤å­—ç¬¦çš„æœ€é•¿å­ä¸²æ˜¯ "abc"ï¼Œæ‰€ä»¥å…¶é•¿åº¦ä¸º 3ã€‚
+ ç¤ºä¾‹ 2:
 
- ÊäÈë: "bbbbb"
- Êä³ö: 1
- ½âÊÍ: ÒòÎªÎÞÖØ¸´×Ö·ûµÄ×î³¤×Ó´®ÊÇ "b"£¬ËùÒÔÆä³¤¶ÈÎª 1¡£
- Ê¾Àý 3:
+ è¾“å…¥: "bbbbb"
+ è¾“å‡º: 1
+ è§£é‡Š: å› ä¸ºæ— é‡å¤å­—ç¬¦çš„æœ€é•¿å­ä¸²æ˜¯ "b"ï¼Œæ‰€ä»¥å…¶é•¿åº¦ä¸º 1ã€‚
+ ç¤ºä¾‹ 3:
 
- ÊäÈë: "pwwkew"
- Êä³ö: 3
- ½âÊÍ: ÒòÎªÎÞÖØ¸´×Ö·ûµÄ×î³¤×Ó´®ÊÇ "wke"£¬ËùÒÔÆä³¤¶ÈÎª 3¡£
- Çë×¢Òâ£¬ÄãµÄ´ð°¸±ØÐëÊÇ ×Ó´® µÄ³¤¶È£¬"pwke" ÊÇÒ»¸ö×ÓÐòÁÐ£¬²»ÊÇ×Ó´®¡£
+ è¾“å…¥: "pwwkew"
+ è¾“å‡º: 3
+ è§£é‡Š: å› ä¸ºæ— é‡å¤å­—ç¬¦çš„æœ€é•¿å­ä¸²æ˜¯ "wke"ï¼Œæ‰€ä»¥å…¶é•¿åº¦ä¸º 3ã€‚
+ è¯·æ³¨æ„ï¼Œä½ çš„ç­”æ¡ˆå¿…é¡»æ˜¯ å­ä¸² çš„é•¿åº¦ï¼Œ"pwke" æ˜¯ä¸€ä¸ªå­åºåˆ—ï¼Œä¸æ˜¯å­ä¸²ã€‚
  * Created by Jason on 2019/2/5/0005.
  */
 public class Solution {

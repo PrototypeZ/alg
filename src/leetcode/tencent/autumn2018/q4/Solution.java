@@ -34,47 +34,47 @@ class Solution {
     }
 
     /**
-     * 1. ÔÚÁ½¸öÓÐÐòÊý×éÀïÑ°ÕÒÖÐÎ»Êý¡£¿ÉÒÔÈÏÎªÔÚÁ½¸öÊý×é¸÷ÇÐÒ»µ¶£¬Ã¿¸öÊý×é±»ÇÐ¸îÎªÁ½¸öÐÂµÄ×ÓÊý×é¡£
-     * ÕâÑù²úÉú 4 ¸öÐÂµÄ×ÓÊý×é£¬Èç¹û×ó±ßµÄÁ½¸ö×ÓÊý×éµÄ×î´óÖµÐ¡ÓÚµÈÓÚÓÒ±ßÁ½¸ö×ÓÊý×éµÄ×îÐ¡Öµ£¬ÄÇÃ´
-     * ÎÒÃÇ¿ÉÒÔÈÏÎªÏÂµ¶µÄÁ½¸öÎ»ÖÃ£¬ºÍÖÐÎ»ÊýµÄÎ»ÖÃÃÜÇÐÏà¹Ø£¨¿ÉÄÜºÍÁ½¸öÏÂµ¶µÄÎ»ÖÃ¶¼ÓÐ¹ØÏµ£¬
-     * Ò²¿ÉÄÜÖ»ºÍÆäÖÐÒ»µ¶µÄÎ»ÖÃÓÐ¹ØÏµ£©¡£
+     * 1. åœ¨ä¸¤ä¸ªæœ‰åºæ•°ç»„é‡Œå¯»æ‰¾ä¸­ä½æ•°ã€‚å¯ä»¥è®¤ä¸ºåœ¨ä¸¤ä¸ªæ•°ç»„å„åˆ‡ä¸€åˆ€ï¼Œæ¯ä¸ªæ•°ç»„è¢«åˆ‡å‰²ä¸ºä¸¤ä¸ªæ–°çš„å­æ•°ç»„ã€‚
+     * è¿™æ ·äº§ç”Ÿ 4 ä¸ªæ–°çš„å­æ•°ç»„ï¼Œå¦‚æžœå·¦è¾¹çš„ä¸¤ä¸ªå­æ•°ç»„çš„æœ€å¤§å€¼å°äºŽç­‰äºŽå³è¾¹ä¸¤ä¸ªå­æ•°ç»„çš„æœ€å°å€¼ï¼Œé‚£ä¹ˆ
+     * æˆ‘ä»¬å¯ä»¥è®¤ä¸ºä¸‹åˆ€çš„ä¸¤ä¸ªä½ç½®ï¼Œå’Œä¸­ä½æ•°çš„ä½ç½®å¯†åˆ‡ç›¸å…³ï¼ˆå¯èƒ½å’Œä¸¤ä¸ªä¸‹åˆ€çš„ä½ç½®éƒ½æœ‰å…³ç³»ï¼Œ
+     * ä¹Ÿå¯èƒ½åªå’Œå…¶ä¸­ä¸€åˆ€çš„ä½ç½®æœ‰å…³ç³»ï¼‰ã€‚
      * <p>
-     * 2. Èç¹ûÁ½¸öÊý×éµÄ³¤¶ÈºÍÎªÅ¼Êý£¬ÄÇÃ´×ó±ßÁ½¸ö×ÓÊý×éµÄ³¤¶ÈºÍ Óë ÓÒ±ßÁ½¸ö×ÓÊý×éµÄ³¤¶ÈºÍ ÏàµÈ£¬
-     * Îª×Ü³¤¶ÈºÍµÄÒ»°ë¡£Èç¹ûÁ½¸öÊý×éµÄ³¤¶ÈºÍÎªÆæÊý£¬ÄÇÃ´×ó±ßÁ½¸ö×ÓÊý×éµÄ³¤¶ÈºÍ Óë ÓÒ±ßÁ½¸ö×ÓÊý×éµÄ
-     * ³¤¶ÈºÍÏà²î 1£¬ ²»Ò»¶¨Ë­´ó 1¡£
+     * 2. å¦‚æžœä¸¤ä¸ªæ•°ç»„çš„é•¿åº¦å’Œä¸ºå¶æ•°ï¼Œé‚£ä¹ˆå·¦è¾¹ä¸¤ä¸ªå­æ•°ç»„çš„é•¿åº¦å’Œ ä¸Ž å³è¾¹ä¸¤ä¸ªå­æ•°ç»„çš„é•¿åº¦å’Œ ç›¸ç­‰ï¼Œ
+     * ä¸ºæ€»é•¿åº¦å’Œçš„ä¸€åŠã€‚å¦‚æžœä¸¤ä¸ªæ•°ç»„çš„é•¿åº¦å’Œä¸ºå¥‡æ•°ï¼Œé‚£ä¹ˆå·¦è¾¹ä¸¤ä¸ªå­æ•°ç»„çš„é•¿åº¦å’Œ ä¸Ž å³è¾¹ä¸¤ä¸ªå­æ•°ç»„çš„
+     * é•¿åº¦å’Œç›¸å·® 1ï¼Œ ä¸ä¸€å®šè°å¤§ 1ã€‚
      * <p>
-     * 3. Èç¹ûÁ½¸öÊý×éµÄ³¤¶È·Ö±ðÎª m£¬n£» ÕâÁ½¸öÊý×é°´ÉýÐòÖØÐÂÅÅ³ÉÒ»¸öÐÂµÄÊý×éÎª p ¡£ÄÇÃ´Èç¹û m+n ÎªÅ¼Êý£¬
-     * ÖÐÎ»Êý¾ÍÊÇ (p[(m+n)/2-1] + p[m+n/2])/2¡£ Èç¹û m+n ÎªÆæÊý£¬ÄÇÃ´ÖÐÎ»Êý¾ÍÊÇ p[(m+n)/2]¡£
+     * 3. å¦‚æžœä¸¤ä¸ªæ•°ç»„çš„é•¿åº¦åˆ†åˆ«ä¸º mï¼Œnï¼› è¿™ä¸¤ä¸ªæ•°ç»„æŒ‰å‡åºé‡æ–°æŽ’æˆä¸€ä¸ªæ–°çš„æ•°ç»„ä¸º p ã€‚é‚£ä¹ˆå¦‚æžœ m+n ä¸ºå¶æ•°ï¼Œ
+     * ä¸­ä½æ•°å°±æ˜¯ (p[(m+n)/2-1] + p[m+n/2])/2ã€‚ å¦‚æžœ m+n ä¸ºå¥‡æ•°ï¼Œé‚£ä¹ˆä¸­ä½æ•°å°±æ˜¯ p[(m+n)/2]ã€‚
      * <p>
-     * 4. ÄÇÃ´ÔÚÁ½¸öÉýÐòÊý×éÖÐÑ°ÕÒÖÐÎ»ÊýµÄÎÊÌâ¿ÉÒÔ×ª»»Îª£¬ÔÚÁ½¸öÉýÐòÊý×éÄÚ²éÕÒµÚ k ´óÊýµÄÎÊÌâ£¬Ò²¿ÉÒÔËµ
-     * ÔÚÁ½¸öÉýÐòÊý×éÄÚ²éÕÒµÚ k Ð¡ÊýµÄÎÊÌâ¡£
+     * 4. é‚£ä¹ˆåœ¨ä¸¤ä¸ªå‡åºæ•°ç»„ä¸­å¯»æ‰¾ä¸­ä½æ•°çš„é—®é¢˜å¯ä»¥è½¬æ¢ä¸ºï¼Œåœ¨ä¸¤ä¸ªå‡åºæ•°ç»„å†…æŸ¥æ‰¾ç¬¬ k å¤§æ•°çš„é—®é¢˜ï¼Œä¹Ÿå¯ä»¥è¯´
+     * åœ¨ä¸¤ä¸ªå‡åºæ•°ç»„å†…æŸ¥æ‰¾ç¬¬ k å°æ•°çš„é—®é¢˜ã€‚
      * <p>
-     * 5. Ò²¾ÍÊÇËµÎÊÌâ¿ÉÒÔ×ªÎª£¬ÔÚÐÂÊý×é p ÄÚ£¬Èç¹û m+n ÎªÅ¼Êý£¬ÕÒµ½µÚ (m+n)/2-1 ´óºÍµÚ (m+n)/2+1 Ð¡µÄÁ½¸öÊý£»
-     * Èç¹û m+n ÎªÆæÊý£¬ÕÒµ½µÚ (m+n)/2+1 Ð¡µÄÊý¡£
+     * 5. ä¹Ÿå°±æ˜¯è¯´é—®é¢˜å¯ä»¥è½¬ä¸ºï¼Œåœ¨æ–°æ•°ç»„ p å†…ï¼Œå¦‚æžœ m+n ä¸ºå¶æ•°ï¼Œæ‰¾åˆ°ç¬¬ (m+n)/2-1 å¤§å’Œç¬¬ (m+n)/2+1 å°çš„ä¸¤ä¸ªæ•°ï¼›
+     * å¦‚æžœ m+n ä¸ºå¥‡æ•°ï¼Œæ‰¾åˆ°ç¬¬ (m+n)/2+1 å°çš„æ•°ã€‚
      * <p>
-     * ËùÒÔÕâ¸öº¯ÊýµÄ¶¨Òå¾ÍÊÇÔÚÁ½¸öÊý×éÄÚÕÒµ½µÚ k Ð¡µÄÊý£¬ÏÔÈ» k >= 1
+     * æ‰€ä»¥è¿™ä¸ªå‡½æ•°çš„å®šä¹‰å°±æ˜¯åœ¨ä¸¤ä¸ªæ•°ç»„å†…æ‰¾åˆ°ç¬¬ k å°çš„æ•°ï¼Œæ˜¾ç„¶ k >= 1
      * <p>
-     * 6. ÎÊÌâ1£º ¶ÔÓÚÁ½¸öÉýÐòÊý×é£¬A ºÍ B£¬ºÏÎªÒ»¸öÉýÐòÊý×é£¬ÕÒÆäÖÐµÚ k Ð¡µÄÔªËØ¡£
+     * 6. é—®é¢˜1ï¼š å¯¹äºŽä¸¤ä¸ªå‡åºæ•°ç»„ï¼ŒA å’Œ Bï¼Œåˆä¸ºä¸€ä¸ªå‡åºæ•°ç»„ï¼Œæ‰¾å…¶ä¸­ç¬¬ k å°çš„å…ƒç´ ã€‚
      * <p>
-     * ÎÊÌâ2£º ¶ÔÓÚÁ½¸öÉýÐòÊý×é£¬A ºÍ B£¬°ÑÊý×é A µÄµÚ a Ð¡ÔªËØºÍÊý×é B µÄµÚ k -a Ð¡ÔªËØ£¬½øÐÐ±È½Ï,£¨a < k£©¡£
-     * 6.1 Èô A[a - 1] < B [k - a - 1] , Çó A Êý×éµÄ×ÓÐòÁÐ A[a ~ end] ºÍ B Êý×é£¬
-     * ÕâÁ½¸öÊý×éºÏ²¢ÎªÒ»¸öÐÂµÄÉýÐòÊý×éºó£¬ µÚ k - a Ð¡µÄÔªËØ¡£
-     * 6.2 Èô A[a - 1] > B [k - a - 1], Çó B Êý×éµÄ×ÓÐòÁÐ B [k - 1 ~ end] ºÍ A Êý×é£¬
-     * ÕâÁ½¸öÊý×éºÏ²¢ÎªÒ»¸öÐÂµÄÉýÐòÊý×éºó£¬µÚ a Ð¡µÄÔªËØ
-     * 6.3 Èô A[a -1] == B[k - a - 1], ÕâÁ½¸öÊýÍ¬Ê±Îª A ºÍ B ºÏ²¢ÎªÒ»¸öÐÂµÄÉýÐòÊý×éºó£¬µÚ k Ð¡µÄÔªËØ¡£
-     * ÔÚÕâ¸öºÏ³ÉºóµÄÐÂÊý×éÀï£¬ A[a - 1], ºÍ B[k - a - 1] ÕâÁ½¸öÊý£¬Ë­Ç°Ë­ºóÎÞËùÎ½¡£
+     * é—®é¢˜2ï¼š å¯¹äºŽä¸¤ä¸ªå‡åºæ•°ç»„ï¼ŒA å’Œ Bï¼ŒæŠŠæ•°ç»„ A çš„ç¬¬ a å°å…ƒç´ å’Œæ•°ç»„ B çš„ç¬¬ k -a å°å…ƒç´ ï¼Œè¿›è¡Œæ¯”è¾ƒ,ï¼ˆa < kï¼‰ã€‚
+     * 6.1 è‹¥ A[a - 1] < B [k - a - 1] , æ±‚ A æ•°ç»„çš„å­åºåˆ— A[a ~ end] å’Œ B æ•°ç»„ï¼Œ
+     * è¿™ä¸¤ä¸ªæ•°ç»„åˆå¹¶ä¸ºä¸€ä¸ªæ–°çš„å‡åºæ•°ç»„åŽï¼Œ ç¬¬ k - a å°çš„å…ƒç´ ã€‚
+     * 6.2 è‹¥ A[a - 1] > B [k - a - 1], æ±‚ B æ•°ç»„çš„å­åºåˆ— B [k - 1 ~ end] å’Œ A æ•°ç»„ï¼Œ
+     * è¿™ä¸¤ä¸ªæ•°ç»„åˆå¹¶ä¸ºä¸€ä¸ªæ–°çš„å‡åºæ•°ç»„åŽï¼Œç¬¬ a å°çš„å…ƒç´ 
+     * 6.3 è‹¥ A[a -1] == B[k - a - 1], è¿™ä¸¤ä¸ªæ•°åŒæ—¶ä¸º A å’Œ B åˆå¹¶ä¸ºä¸€ä¸ªæ–°çš„å‡åºæ•°ç»„åŽï¼Œç¬¬ k å°çš„å…ƒç´ ã€‚
+     * åœ¨è¿™ä¸ªåˆæˆåŽçš„æ–°æ•°ç»„é‡Œï¼Œ A[a - 1], å’Œ B[k - a - 1] è¿™ä¸¤ä¸ªæ•°ï¼Œè°å‰è°åŽæ— æ‰€è°“ã€‚
      * <p>
      * <p>
-     * ÎÊÌâÒ» ºÍ ÎÊÌâ¶þ±¾ÖÊÉÏÊÇÒ»¸öÎÊÌâ£¬µ«ÊÇÎÊÌâ¶þÏà¶ÔÓÚÎÊÌâÒ»£¬ÔÚÖ¸¶¨Ò»¸ö a µÄÇé¿öÏÂ£¬ËõÐ¡ÁËÎÊÌâ¹æÄ££¬
-     * °Ñ´óÎÊÌâ×ª»¯ÎªÁË±¾ÖÊÒ»ÑùµÄÐ¡ÎÊÌâ£¬±ãÓÚµÝ¹é¡£
+     * é—®é¢˜ä¸€ å’Œ é—®é¢˜äºŒæœ¬è´¨ä¸Šæ˜¯ä¸€ä¸ªé—®é¢˜ï¼Œä½†æ˜¯é—®é¢˜äºŒç›¸å¯¹äºŽé—®é¢˜ä¸€ï¼Œåœ¨æŒ‡å®šä¸€ä¸ª a çš„æƒ…å†µä¸‹ï¼Œç¼©å°äº†é—®é¢˜è§„æ¨¡ï¼Œ
+     * æŠŠå¤§é—®é¢˜è½¬åŒ–ä¸ºäº†æœ¬è´¨ä¸€æ ·çš„å°é—®é¢˜ï¼Œä¾¿äºŽé€’å½’ã€‚
      */
     public double findKSmallestInArrays(int[] arrayA, int[] arrayB, int k) {
         if (arrayA.length > arrayB.length) {
             return findKSmallestInArrays(arrayB, arrayA, k);
         }
-        // ×ßµ½ÕâÀïÎÒÃÇ¿ÉÒÔÈÏÎª arrayA Ê¼ÖÕ±È arrayB ¶ÌÁË£¨Ð¡ÓÚµÈÓÚ£©
+        // èµ°åˆ°è¿™é‡Œæˆ‘ä»¬å¯ä»¥è®¤ä¸º arrayA å§‹ç»ˆæ¯” arrayB çŸ­äº†ï¼ˆå°äºŽç­‰äºŽï¼‰
         if (arrayA.length == 0) {
-            // ÔÚ°ÑÎÊÌâ½øÐÐÇÐ¸îµÄ¹ý³ÌÖÐ£¬ÆäÖÐÒ»¸öÊý×é±»ÇÐ¸îÎªÁË 0
+            // åœ¨æŠŠé—®é¢˜è¿›è¡Œåˆ‡å‰²çš„è¿‡ç¨‹ä¸­ï¼Œå…¶ä¸­ä¸€ä¸ªæ•°ç»„è¢«åˆ‡å‰²ä¸ºäº† 0
             return arrayB[k - 1];
         }
         if (k == 1) {
@@ -82,8 +82,8 @@ class Solution {
         }
 
         /**
-         * »®·Ö pa ÒÀ¾Ý£¬Ê×ÏÈ±ØÐë´óÓÚµÈÓÚ 1£¨ÒòÎªÇóµÚ pa ´ó£©
-         * »¹µÃ±È k Ð¡£¬µÈÓÚ k »òÕß´óÓÚ k £¬pb ¾ÍÃ»·¨»®·ÖÁË
+         * åˆ’åˆ† pa ä¾æ®ï¼Œé¦–å…ˆå¿…é¡»å¤§äºŽç­‰äºŽ 1ï¼ˆå› ä¸ºæ±‚ç¬¬ pa å¤§ï¼‰
+         * è¿˜å¾—æ¯” k å°ï¼Œç­‰äºŽ k æˆ–è€…å¤§äºŽ k ï¼Œpb å°±æ²¡æ³•åˆ’åˆ†äº†
          */
         int pa = Math.min(Math.max(arrayA.length / 2, 1), k - 1);
 //        int pa = Math.max(Math.min(arrayA.length / 2, k - 1), 1);
@@ -92,14 +92,14 @@ class Solution {
         if (arrayA[pa - 1] > arrayB[pb - 1]) {
             int[] newArrayA = Arrays.copyOfRange(arrayA, 0, pa);
             int[] newArrayB = Arrays.copyOfRange(arrayB, pb, arrayB.length);
-            // ÌÔÌ­ÁË B Êý×éÀïÇ° pb ¸öÊý£¬ ÔÚÊý×é A ÄÚ´ÓµÚ pa ¸öÊý¿ªÊ¼¶¼´óÓÚµÈÓÚ A[pa - 1]
-            // ËùÒÔÐÂÊý×éµÄ²éÕÒ¹æÂÉÈçÏÂ
+            // æ·˜æ±°äº† B æ•°ç»„é‡Œå‰ pb ä¸ªæ•°ï¼Œ åœ¨æ•°ç»„ A å†…ä»Žç¬¬ pa ä¸ªæ•°å¼€å§‹éƒ½å¤§äºŽç­‰äºŽ A[pa - 1]
+            // æ‰€ä»¥æ–°æ•°ç»„çš„æŸ¥æ‰¾è§„å¾‹å¦‚ä¸‹
             return findKSmallestInArrays(newArrayA, newArrayB, pa);
         } else if (arrayA[pa - 1] < arrayB[pb - 1]) {
             int[] newArrayA = Arrays.copyOfRange(arrayA, pa, arrayA.length);
             int[] newArrayB = Arrays.copyOfRange(arrayB, 0, pb);
-            // ÌÔÌ­ÁË A Êý×éÀïÇ° pa ¸öÊý£¬ ÔÚÊý×é A ÄÚ´ÓµÚ pa ¸öÊý¿ªÊ¼¶¼´óÓÚµÈÓÚ A[pa - 1]
-            // ËùÒÔÐÂÊý×éµÄ²éÕÒ¹æÂÉÈçÏÂ
+            // æ·˜æ±°äº† A æ•°ç»„é‡Œå‰ pa ä¸ªæ•°ï¼Œ åœ¨æ•°ç»„ A å†…ä»Žç¬¬ pa ä¸ªæ•°å¼€å§‹éƒ½å¤§äºŽç­‰äºŽ A[pa - 1]
+            // æ‰€ä»¥æ–°æ•°ç»„çš„æŸ¥æ‰¾è§„å¾‹å¦‚ä¸‹
             return findKSmallestInArrays(newArrayA, newArrayB, pb);
         } else {
             return arrayA[pa - 1];
