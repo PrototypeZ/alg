@@ -33,23 +33,12 @@ public class Solution {
         if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) {
             negative = true;
         }
-        if (dividend == Integer.MIN_VALUE) {
-            if (divisor > 0) {
-                return divide(dividend + divisor, divisor) - 1;
-            } else {
-                int a = divide(dividend - divisor, divisor);
-                if (a == Integer.MAX_VALUE) {
-                    return Integer.MAX_VALUE;
-                } else {
-                    return a + 1;
-                }
-            }
-        } else if (divisor == Integer.MIN_VALUE) {
-            return 0;
+        int tmpResult = divideInternal(dividend > 0 ? -dividend: dividend, divisor > 0 ? -divisor: divisor);
+        if (tmpResult == Integer.MIN_VALUE && !negative) {
+            return Integer.MAX_VALUE;
         } else {
-            return (negative ? -1 : 1) * divideInternal(Math.abs(dividend), Math.abs(divisor));
+            return negative ? tmpResult : -tmpResult;
         }
-
     }
 
     /**
@@ -57,26 +46,35 @@ public class Solution {
      * 所以商的本质就是除数的个数，我们的思路时尝试这个个数，
      * 2 个, 4个, 8 个, 16个 ... 这样去试，
      * 加入试到 16 个 时，比被除数要大了， 就在 8 ~ 16 中间去继续按这种方法去找
+     *
+     * 由于 Integer 整数范围比负数范围小 1，如果发生溢出，一定是 Integer.MIN_VALUE 变正数的过程，所以
+     * 我们把计算过程中所有中间变量都变成负数，防止溢出现象发生
+     *
+     * dividend 和 divisor 都为负数
      */
     private int divideInternal(int dividend, int divisor) {
 
-        if (dividend < divisor) return 0;
-        if (dividend == divisor) return 1;
+        if (dividend > divisor) return 0;
+        // 按照约定虽然相等的两数相除得 1， 我们仍然记为 -1。
+        if (dividend == divisor) return -1;
 
         int testMinusNum = divisor;
-        int testQuotient = 1;
+        // 测试商值，我们用负数形式保存，本来应该是 1
+        int testQuotient = -1;
 
         boolean isAboutToLeak = false;
-        while (dividend - testMinusNum > 0) {
-            if (testMinusNum < Integer.MAX_VALUE / 2 && testQuotient < Integer.MAX_VALUE / 2) {
+        while (dividend < testMinusNum) {
+            if (testMinusNum > Integer.MIN_VALUE / 2 && testQuotient > Integer.MIN_VALUE / 2) {
                 testMinusNum += testMinusNum;
                 testQuotient += testQuotient;
             } else {
+                // 商值如果再翻倍，就要在负数领域溢出了
                 isAboutToLeak = true;
                 break;
             }
         }
 
+        // 最后的结果也以负数形式保存
         if (isAboutToLeak) {
             return testQuotient + divideInternal(dividend - testMinusNum, divisor);
         } else if (dividend  == testMinusNum) {
@@ -90,12 +88,13 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-//        System.out.println(solution.divide(10, 3));
-//        System.out.println(solution.divide(7, -3));
-//        System.out.println(solution.divide(0, -3));
-//        System.out.println(solution.divide(9, -3));
+        System.out.println(solution.divide(10, 3));
+        System.out.println(solution.divide(7, -3));
+        System.out.println(solution.divide(0, -3));
+        System.out.println(solution.divide(9, -3));
         System.out.println(solution.divide(Integer.MIN_VALUE, 1));
         System.out.println(solution.divide(Integer.MIN_VALUE, -1));
         System.out.println(solution.divide(Integer.MIN_VALUE, 2));
+        System.out.println(solution.divide(1, 1));
     }
 }
