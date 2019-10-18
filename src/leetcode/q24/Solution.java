@@ -48,16 +48,23 @@ public class Solution {
         }
         ListNode dummyHead = new ListNode(0);
         dummyHead.next = head;
-        ListNode first = dummyHead;
-        ListNode second = first.next;
+        ListNode o = dummyHead;
+        ListNode p = o.next;
+        ListNode q = o.next.next;
 
-        while (second != null && second.next != null) {
-            first.next = second.next;
-            second.next = second.next.next;
-            second.next.next = second;
+        while (p != null && q != null) {
+            // change o -> p -> q to o -> q -> p
+            o.next = q;
+            p.next = q.next;
+            q.next = p;
 
-            first = second;
-            second = second.next;
+            o = p;
+            p = o.next; // maybe null
+            if (p != null) {
+                q = p.next;
+            } else {
+                q = null;
+            }
         }
         return dummyHead.next;
     }
@@ -70,5 +77,13 @@ public class Solution {
         test.next.next.next = new ListNode(4);
 
         printListNode(solution.swapPairs(test));
+
+        ListNode test1 = new ListNode(1);
+        printListNode(solution.swapPairs(test1));
+
+        ListNode test2 = new ListNode(1);
+        test2.next = new ListNode(2);
+        test2.next.next = new ListNode(3);
+        printListNode(solution.swapPairs(test2));
     }
 }
