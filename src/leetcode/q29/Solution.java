@@ -64,7 +64,7 @@ public class Solution {
 
         boolean isAboutToLeak = false;
         while (dividend < testMinusNum) {
-            if (testMinusNum > Integer.MIN_VALUE / 2 && testQuotient > Integer.MIN_VALUE / 2) {
+            if (testMinusNum > Integer.MIN_VALUE / 2) {
                 testMinusNum += testMinusNum;
                 testQuotient += testQuotient;
             } else {
