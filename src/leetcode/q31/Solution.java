@@ -4,6 +4,22 @@ import java.util.Arrays;
 
 public class Solution {
 
+    /**
+     * 求全排列字典序的一下个排列是把当前排列
+     * (P1P2…Pj-1)   (Pj)    (Pj+1…Pk-1)   (Pk)   (Pk+1…Pn)
+     * 变成
+     * (P1P2…Pj-1)   (Pk)   (Pn…Pk+1)     (Pj)    (Pk-1…Pj+1)
+     * 即可。
+     *
+     * 其中 j 为原排列中求一个最大的下标，使 nums[j] < nums[j+]
+     * k 为在原排列中求一个最大的下标，使 nums[k] > nums[j]。
+     * 通过上面的描述可以知道，如果找到了这个 j , 那么 k 至少是 j + 1，
+     * 如果找不到 j，那么 k 也无从谈起，这种情况下，所求的下一个排列为全排列字典序的第一个排列
+     * 即升序排列
+     *
+     *
+     * 实际求这个下一个排列的算法中，我们方便的做法是先互换 Pk Pj，然后把 j+1 ~ n 整个序列反转即可。
+     */
     public void nextPermutation(int[] nums) {
         int j = -1;
         for (int i = 0; i < nums.length - 1; i++) {
