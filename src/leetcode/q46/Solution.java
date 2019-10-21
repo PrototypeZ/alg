@@ -37,7 +37,6 @@ public class Solution {
                     Collections.singletonList(nums[0])
             );
         } else if (nums.length == 2) {
-            List<List<Integer>> result = new ArrayList<>();
             return Arrays.asList(
                     Arrays.asList(nums[0], nums[1]),
                     Arrays.asList(nums[1], nums[0])
