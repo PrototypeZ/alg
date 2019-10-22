@@ -90,5 +90,17 @@ public class Solution {
         };
         solution.rotate(test);
         System.out.println(Arrays.deepToString(test));
+
+        test = new int[][]{
+
+        };
+        solution.rotate(test);
+        System.out.println(Arrays.deepToString(test));
+
+        test = new int[][]{
+            new int[]{1}
+        };
+        solution.rotate(test);
+        System.out.println(Arrays.deepToString(test));
     }
 }
