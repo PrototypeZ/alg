@@ -41,9 +41,41 @@ public class Solution {
         }
     }
 
+    public int calculateWithDuplicate(int start, int end, int depth, List<Integer> path, int target, Map<String, Integer> cache) {
+        Integer value = cache.get(depth + "#" + target);
+        if (value != null) {
+            System.out.println(path + ", depth:" + depth + ", target:" + target + ", value:" + value);
+            return value;
+        }
+        if (depth == 0) {
+            if (target == 0) {
+                System.out.println(path);
+                return 1;
+            } else {
+//                System.out.println("failed:" + path);
+                return 0;
+            }
+        } else {
+            // depth > 0
+            // divideResult 表示剩下 target 由 depth 个数组成的话，这些数平均大小是多少，
+            // 如果 current 比这个平均大小都要大的话，就不需要再测试了
+            int v = 0;
+            // 这里剪枝很重要
+            int maxValue = target - (depth - 1) * start;
+            for (int i = start; i <= end && i <= maxValue; i++) {
+                List<Integer> newList = new ArrayList<>(path);
+                newList.add(i);
+                v += calculateWithDuplicate(start, end, depth - 1, newList, target - i, cache);
+            }
+            cache.put(depth + "#" + target, v);
+            return v;
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         Map<String, Integer> cache = new HashMap<>();
         System.out.println(solution.calculate(124, 10, new ArrayList<>(), 100, 1024, cache));
+        System.out.println(solution.calculateWithDuplicate(100, 124, 10, new ArrayList<>(), 1024, cache));
     }
 }
