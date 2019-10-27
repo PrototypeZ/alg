@@ -30,38 +30,67 @@ import java.util.List;
  */
 public class Solution {
 
+//    public List<List<Integer>> subsetsWithDup(int[] nums) {
+//        Arrays.sort(nums);
+//        return subsetsWithDupInternal(nums, 0);
+//    }
+//
+//    private List<List<Integer>> subsetsWithDupInternal(int[] nums, int current) {
+//        if (current == nums.length) {
+//            return Collections.singletonList(Collections.emptyList());
+//        }
+//        // current 后面最近的那个和 current 不相等的数距离 current
+//        // 如果 current 的下一个元素与 current 不相等， next == 1
+//        // 如果 current 的下一个元素与 current 相等， 但是 current 的下下个元素与 current 不相等， next == 2
+//        // 也就是说 next 表示有几个和 current 元素相等的元素，包括 current
+//        int next = 1;
+//        while (current + next < nums.length && nums[current] == nums[current + next]) next++;
+//        List<List<Integer>> lo = subsetsWithDupInternal(nums, current + next);
+//        List<List<Integer>> l1 = new ArrayList<>(lo);
+//
+//        // 含有相同元素前缀的范围为 1 ~ next
+//        for (int i = 1; i <= next; i++) {
+//            List<Integer> prefix = new ArrayList<>();
+//            for (int j = 1; j <= i; j++) {
+//                prefix.add(nums[current]);
+//            }
+//
+//            for (List<Integer> list : lo) {
+//                List<Integer> newList = new ArrayList<>(list);
+//                newList.addAll(0, prefix);
+//                l1.add(newList);
+//            }
+//        }
+//        return l1;
+//    }
+
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
-        return subsetsWithDupInternal(nums, 0);
+        List<List<Integer>> result = new ArrayList<>();
+        subsetsWithDupInternal(nums, new ArrayList<>(), -1, result);
+        return result;
     }
 
-    private List<List<Integer>> subsetsWithDupInternal(int[] nums, int current) {
-        if (current == nums.length) {
-            return Collections.singletonList(Collections.emptyList());
+    /**
+     *
+     * 回溯法
+     *
+     * @param nums
+     * @param path 当前 path 已经遍历到， 但是 path 尚未被加入到结果集中
+     * @param currentIdx path 中最后一个元素 idx,后面再取的话，元素的 idx 必须大于 currentIdx
+     * @param result
+     */
+    public void subsetsWithDupInternal(int[] nums, List<Integer> path, int currentIdx, List<List<Integer>> result) {
+        if (currentIdx > nums.length - 1){
+            return;
         }
-        // current 后面最近的那个和 current 不相等的数距离 current
-        // 如果 current 的下一个元素与 current 不相等， next == 1
-        // 如果 current 的下一个元素与 current 相等， 但是 current 的下下个元素与 current 不相等， next == 2
-        // 也就是说 next 表示有几个和 current 元素相等的元素，包括 current
-        int next = 1;
-        while (current + next < nums.length && nums[current] == nums[current + next]) next++;
-        List<List<Integer>> lo = subsetsWithDupInternal(nums, current + next);
-        List<List<Integer>> l1 = new ArrayList<>(lo);
-
-        // 含有相同元素前缀的范围为 1 ~ next
-        for (int i = 1; i <= next; i++) {
-            List<Integer> prefix = new ArrayList<>();
-            for (int j = 1; j <= i; j++) {
-                prefix.add(nums[current]);
-            }
-
-            for (List<Integer> list : lo) {
-                List<Integer> newList = new ArrayList<>(list);
-                newList.addAll(0, prefix);
-                l1.add(newList);
-            }
+        result.add(path);
+        for (int i = currentIdx + 1; i < nums.length; i++) {
+            if (i > currentIdx + 1 && nums[i] == nums[i-1]) continue;
+            List<Integer> newPath = new ArrayList<>(path);
+            newPath.add(nums[i]);
+            subsetsWithDupInternal(nums, newPath, i, result);
         }
-        return l1;
     }
 
     public static void main(String[] args) {
