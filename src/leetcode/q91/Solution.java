@@ -76,8 +76,16 @@ public class Solution {
         Integer value = cache.get(s);
         if (value != null) return value;
 
-        int result = numDecodings(s.substring(0, 1)) * numDecodings(s.substring(1))
-                + (dic.get(s.substring(0, 2)) == null ? 0 : 1) * numDecodings(s.substring(2));
+        int result = 0;
+//                = numDecodings(s.substring(0, 1)) * numDecodings(s.substring(1))
+//                + (dic.get(s.substring(0, 2)) == null ? 0 : 1) * numDecodings(s.substring(2));
+
+        boolean oneStepOk = numDecodings(s.substring(0, 1)) == 1;
+        result += oneStepOk ? numDecodings(s.substring(1)) : 0;
+        boolean twoStepOk = dic.get(s.substring(0, 2)) != null;
+        result += twoStepOk ? numDecodings(s.substring(2)) : 0;
+
+
         cache.put(s, result);
         return result;
     }
