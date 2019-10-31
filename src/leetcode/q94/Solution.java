@@ -24,6 +24,7 @@ public class Solution {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode curr = root;
         // 当前扫描到的节点为空，且没有任何待遍历的节点时，循环退出
+        // current == null 的时候表示，current 的父节点的右子节点不存在
         while (curr != null || !stack.isEmpty()) {
             // 只要当前节点包含左子节点，current 就要向左子节点移动
             // 同时把当前的节点加入待遍历节点栈
