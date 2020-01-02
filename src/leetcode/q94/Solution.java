@@ -45,12 +45,64 @@ public class Solution {
         return res;
     }
 
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if (root != null) {
+            stack.push(root);
+        }
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+            // 到叶子节点了
+            if (curr.left == null && curr.right == null) {
+                res.add(curr.val);
+                continue;
+            }
+            if (curr.left == null) {
+                // 左子节点 null， 右子节点不为 null
+                res.add(curr.val);
+                stack.add(curr.right);
+                continue;
+            }
+            // 左右子节点均不为 null
+            while (curr.left != null) {
+                stack.push(curr.left);
+                curr = curr.left;
+            }
+            // 已经没有左子节点了，curr 自己就是左子节点
+            res.add(curr.val);
+            TreeNode parent = stack.pop();
+            res.add(parent.val);
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+        }
+        return res;
+    }
+
+    public void inorderTraversalRecursive(TreeNode node, List<Integer> result) {
+        if (node == null) return;
+        inorderTraversalRecursive(node.left, result);
+        result.add(node.val);
+        inorderTraversalRecursive(node.right, result);
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        TreeNode test = new TreeNode(1);
-        test.right = new TreeNode(2);
-        test.right.left = new TreeNode(3);
-        System.out.println(solution.inorderTraversal(test));
+//        TreeNode test = new TreeNode(1);
+//        test.right = new TreeNode(2);
+//        test.right.left = new TreeNode(3);
+//        System.out.println(solution.inorderTraversal2(test));
+//
+//        System.out.println(solution.inorderTraversal(null));
+
+        // [2,3,null,1]
+        TreeNode test2 = new TreeNode(2);
+        test2.left = new TreeNode(3);
+        test2.left.left = new TreeNode(1);
+        System.out.println(solution.inorderTraversal2(test2));
+
+
     }
 }
