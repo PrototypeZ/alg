@@ -27,35 +27,34 @@ import java.util.*;
  */
 public class Solution {
 
-//    public boolean wordBreak(String s, List<String> wordDict) {
-//        List<String> newWordDict = new ArrayList<>();
-//        for (String word : wordDict) {
-//            if (s.contains(word)) {
-//                newWordDict.add(word);
-//            }
-//        }
-//
-//
-//        return wordBreakInternal(s, newWordDict, new HashMap<>());
-//    }
-//
-//    public boolean wordBreakInternal(String s, List<String> wordDict, Map<String, Boolean> cache) {
-//        if (s.length() == 0) return true;
-//        if (cache.containsKey(s)) return cache.get(s);
-//        for (String word : wordDict) {
-//            int firstOccurrence = s.indexOf(word);
-//            if (firstOccurrence != -1) {
-//                String firstPart = s.substring(0, firstOccurrence);
-//                String secondPart = s.substring(firstOccurrence + word.length());
-//                if (wordBreak(firstPart, wordDict) && wordBreak(secondPart, wordDict)) {
-//                    cache.put(s, true);
-//                    return true;
-//                }
-//            }
-//        }
-//        cache.put(s, false);
-//        return false;
-//    }
+    public boolean wordBreak(String s, List<String> wordDict) {
+        List<String> newWordDict = new ArrayList<>();
+        for (String word : wordDict) {
+            if (s.contains(word)) {
+                newWordDict.add(word);
+            }
+        }
+
+
+        return wordBreakInternal(s, newWordDict, new HashMap<>());
+    }
+
+    public boolean wordBreakInternal(String s, List<String> wordDict, Map<String, Boolean> cache) {
+        if (s.length() == 0) return true;
+        if (cache.containsKey(s)) return cache.get(s);
+        for (String word : wordDict) {
+            // 一定要用 startWith 来判断，才能在递归中缩小问题规模，如果用 contains 会增加很多重复情况
+            if (s.startsWith(word)) {
+                String newWord = s.substring(word.length());
+                if (wordBreakInternal(newWord, wordDict, cache)) {
+                    cache.put(s, true);
+                    return true;
+                }
+            }
+        }
+        cache.put(s, false);
+        return false;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
