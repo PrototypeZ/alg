@@ -1,8 +1,6 @@
 package leetcode.q94;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
@@ -43,6 +41,81 @@ public class Solution {
             curr = curr.right;
         }
         return res;
+    }
+
+    /**
+     * 中序遍历一种更容易理解的方式，模拟递归的工作方式
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal3(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        /*
+          node： 当前 node
+          boolean： 当前 node 的左子树是否已经被遍历
+         */
+        Stack<Map.Entry<TreeNode, Boolean>> stack = new Stack<>();
+        if (root != null) {
+            stack.push(new AbstractMap.SimpleEntry<>(root, false));
+        }
+        while (!stack.empty()) {
+            Map.Entry<TreeNode, Boolean> entry = stack.pop();
+            boolean leftChildHasTraveled = entry.getValue();
+            TreeNode node = entry.getKey();
+            if (leftChildHasTraveled) {
+                result.add(node.val);
+            } else {
+                if (node.right != null) {
+                    stack.push(new AbstractMap.SimpleEntry<>(node.right, false));
+                }
+                stack.push(new AbstractMap.SimpleEntry<>(node, true));
+                if (node.left != null) {
+                    stack.push(new AbstractMap.SimpleEntry<>(node.left, false));
+                }
+            }
+        }
+        return result;
+    }
+
+    // 根据 inorderTraversal3 稍作修改
+    public List<Integer> inorderTraversal4(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<Map.Entry<TreeNode, Boolean>> stack = new Stack<>();
+        if (root != null) {
+            stack.push(new AbstractMap.SimpleEntry<>(root, false));
+        }
+        while (!stack.empty()) {
+            Map.Entry<TreeNode, Boolean> entry = stack.pop();
+            boolean leftChildHasTraveled = entry.getValue();
+            TreeNode node = entry.getKey();
+            if (leftChildHasTraveled) {
+                result.add(node.val);
+                if (node.right != null) {
+                    stack.push(new AbstractMap.SimpleEntry<>(node.right, false));
+                }
+            } else {
+                stack.push(new AbstractMap.SimpleEntry<>(node, true));
+                if (node.left != null) {
+                    stack.push(new AbstractMap.SimpleEntry<>(node.left, false));
+                }
+            }
+        }
+        return result;
+    }
+
+    // 根据 inorderTraversal4 稍作修改
+    public List<Integer> inorderTraversal5(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<Map.Entry<TreeNode, Boolean>> stack = new Stack<>();
+        if (root != null) {
+            stack.push(new AbstractMap.SimpleEntry<>(root, false));
+        }
+        while (!stack.empty()) {
+            Map.Entry<TreeNode, Boolean> entry = stack.peek();
+            TreeNode node = entry.getKey();
+
+        }
+        return result;
     }
 
     public List<Integer> inorderTraversal2(TreeNode root) {
@@ -90,18 +163,20 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-//        TreeNode test = new TreeNode(1);
-//        test.right = new TreeNode(2);
-//        test.right.left = new TreeNode(3);
-//        System.out.println(solution.inorderTraversal2(test));
-//
-//        System.out.println(solution.inorderTraversal(null));
+        TreeNode test = new TreeNode(1);
+        test.right = new TreeNode(2);
+        test.right.left = new TreeNode(3);
+        System.out.println("inorderTraversal:" + solution.inorderTraversal(null));
+        System.out.println("inorderTraversal2:" + solution.inorderTraversal2(test));
+        System.out.println("inorderTraversal3:" + solution.inorderTraversal3(test));
+
 
         // [2,3,null,1]
         TreeNode test2 = new TreeNode(2);
         test2.left = new TreeNode(3);
         test2.left.left = new TreeNode(1);
-        System.out.println(solution.inorderTraversal2(test2));
+        System.out.println("inorderTraversal:" + solution.inorderTraversal(test2));
+        System.out.println("inorderTraversal3:" + solution.inorderTraversal3(test2));
 
 
     }
