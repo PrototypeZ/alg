@@ -23,10 +23,21 @@ public class Solution {
         TreeNode curr = root;
         // 当前扫描到的节点为空，且没有任何待遍历的节点时，循环退出
         // current == null 的时候表示，current 的父节点的右子节点不存在
+        // curr 为遍历指针，curr 的移动路径就是遍历的路径
+        // 但是 curr 的值的变化又不完全时真正的遍历路径
+        // 因为真正的中序遍历过程中， curr 不会指向 null 的，
+        // 但是我们实现的中序遍历过程中，允许 curr 指向 null
+        // 1.当栈为空，curr == null 时， 遍历结束
+        // 2.当栈不为空， curr == null 时，我们弹出栈顶元素，使 curr 指向它，继续遍历
+        // 当代码运行到这一行，此时栈不为空， curr == null 时，只有一种可能，curr 尝试指向某个节点的右子节点，
+        // 但是这个右子节点其实不存在，换计划说，上面说的“某个节点”，以这个“某个节点”为根节点的子树已经遍历完毕（这一点后面也会讲到）
         while (curr != null || !stack.isEmpty()) {
             // 只要当前节点包含左子节点，current 就要向左子节点移动
             // 同时把当前的节点加入待遍历节点栈
             // 直到遍历到某个节点，它的左子节点为 null
+            //
+            // 这里也有一点 trick 在里面，凡是入栈的节点，出栈之后不能再走下面的 while 循环，
+            // 不然循环永远无法退出
             while (curr != null) {
                 stack.push(curr);
                 curr = curr.left;
@@ -34,10 +45,20 @@ public class Solution {
             // 走到这一步，此时当前节点必为 null，stack 里面至少有一个节点
             // 我们把这个 stack 里的最后一个节点取出来，很显然，这个节点肯定
             // 不包含左子节点，我们直接遍历它自身，然后扫描它的右子节点
+            // 这句其实很妙，它包含两种情况：
+            // 1. 当当前遍历的左节点存在时不停压栈，总能到达一个时机那就是某个时刻左子节点为null，但是根据上面的 while 语句
+            // 此时 curr 已经为 null 了，只差没有压栈了，所以我们通过把现有栈弹出栈顶元素，相当于往后回退一步
+            // 2. 当遍历某个节点右子节点时，而这个右子节点恰好为 null，根据中序遍历的原则，如果遍历某个右子节点时，这个节点为 null
+            // 要么遍历应该结束（栈内为空），要么应该弹出栈顶元素继续遍历，显然能走到这里表示栈非空，所以应该弹出栈顶元素
+            //
+            // 为什么 `while (curr != null)` 块要放在 `curr = stack.pop();` 前面呢？
+            // 其实这里也有巧妙的设计， 在 pop 之后，
             curr = stack.pop();
             // 这一步添加的这个元素其实是中序遍历中间那个节点
             res.add(curr.val);
             // 遍历完中间节点，需要指向右子节点
+            // 如果右节点存在 curr.right != null, 那么下一轮循环继续尽可能入栈
+            // 如果右节点不存在 curr.right == null， curr 就是叶子节点， 那么下一轮循环的时候需要从栈里取出一个节点
             curr = curr.right;
         }
         return res;
@@ -106,14 +127,23 @@ public class Solution {
     // 根据 inorderTraversal4 稍作修改
     public List<Integer> inorderTraversal5(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        Stack<Map.Entry<TreeNode, Boolean>> stack = new Stack<>();
+        Stack<TreeNode> stack = new Stack<>();
         if (root != null) {
-            stack.push(new AbstractMap.SimpleEntry<>(root, false));
+            stack.push(root);
         }
         while (!stack.empty()) {
-            Map.Entry<TreeNode, Boolean> entry = stack.peek();
-            TreeNode node = entry.getKey();
+            TreeNode node = stack.peek();
 
+            while (node.left != null) {
+                stack.push(node.left);
+                node = node.left;
+            }
+
+            result.add(node.val);
+            stack.pop();
+            if (node.right != null) {
+                stack.push(node.right);
+            }
         }
         return result;
     }
@@ -177,6 +207,7 @@ public class Solution {
         test2.left.left = new TreeNode(1);
         System.out.println("inorderTraversal:" + solution.inorderTraversal(test2));
         System.out.println("inorderTraversal3:" + solution.inorderTraversal3(test2));
+        System.out.println("inorderTraversal5:" + solution.inorderTraversal5(test2));
 
 
     }
