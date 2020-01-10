@@ -38,6 +38,11 @@ public class Solution {
             //
             // 这里也有一点 trick 在里面，凡是入栈的节点，出栈之后不能再走下面的 while 循环，
             // 不然循环永远无法退出
+            // 也就是说顺序是这样的，curr 指针指向某个元素，查看这个元素是否为空
+            // 如果不为空，压栈，curr 指向左子节点，再重复上述操作
+            // 在代码到达这块 while 循环之前，如果 curr ！= null
+            // 此时 curr 指向的是某个节点的右子节点
+            // 也就是此时的 curr 的指向， 在后面 curr 赋值以前， curr 要么就是根节点，要么就是某个节点的右子节点
             while (curr != null) {
                 stack.push(curr);
                 curr = curr.left;
@@ -60,6 +65,33 @@ public class Solution {
             // 如果右节点存在 curr.right != null, 那么下一轮循环继续尽可能入栈
             // 如果右节点不存在 curr.right == null， curr 就是叶子节点， 那么下一轮循环的时候需要从栈里取出一个节点
             curr = curr.right;
+        }
+        return res;
+    }
+
+    public List<Integer> inorderTraversalReadable(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode currRoot = root;
+        // currRoot 可能指向：
+        // 1. 根节点
+        // 2. 某个节点的右子节点
+        // 如果根节点为 null 直接退出，如果某个节点的右子节点为空，那么那个节点不含右子树不存在，那个节点的遍历结束
+        // 这时候看栈是否为空，若栈为空，程序退出；若栈不为空，出栈一个元素，此时这个刚刚出栈的元素的左子树已经遍历结束（思考为什么）
+        // 那么这时候就应该遍历这个元素，然后遍历这个元素的右子树
+        while (currRoot != null || !stack.isEmpty()) {
+            if (currRoot != null) {
+                while (currRoot.left != null) {
+                    stack.push(currRoot);
+                    currRoot = currRoot.left;
+                }
+                res.add(currRoot.val);
+                currRoot = currRoot.right;
+            } else {
+                TreeNode rootInStack = stack.pop();
+                res.add(rootInStack.val);
+                currRoot = rootInStack.right;
+            }
         }
         return res;
     }
