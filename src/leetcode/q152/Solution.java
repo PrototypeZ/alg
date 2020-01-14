@@ -17,9 +17,10 @@ public class Solution {
          * 1. 如果 nums[i+1] > 0
          *   1.1 且 dpMax[i] <= 0, 那么 dpMax[i+1] = nums[i+1]
          *   1.2 且 dpMax[i] > 0, 那么 dpMax[i+1] = dpMax[i] * nums[i+1]
-         *   综合上面两种情况： dpMax[i] = Math.max(nums[i+1], dpMax[i] * nums[i+1])
+         *   综合上面两种情况： dpMax[i+1] = Math.max(nums[i+1], dpMax[i] * nums[i+1])
          *
          * 2. 如果 nums[i+1] == 0, 那么 dpMax[i+1] = 0
+         *   这种情况下，也可以套用情况 1 的结论： dpMax[i+1] = Math.max(nums[i+1], dpMax[i] * nums[i+1])
          *
          * 3. 如果 nums[i+1] < 0
          *   3.1 且 dpMax[i] < 0, 那么 dpMax[i+1] = dpMax[i] * nums[i+1]
@@ -31,11 +32,34 @@ public class Solution {
         int[] dpMax = new int[nums.length];
 
         /*
-         * 为了ying
+         * 为了解决 3.2 遇到的问题， 我们引入了 dpMin， dpMin 中的每个元素代表的数字和 dpMax 类似，
+         * 不同的是 dpMin 是所有积里面最小且为负的那个值
          *
+         * *
+         * 虽然上面分析的很复杂，其实一句话可以概括：
+         * 已知 dpMax[i], nums[i+1]， 要知道 dpMax[i+1]的话，只要求 nums[i+1], nums[i+1]*dpMax[i], nums[i+1]*dpMin[i]
+         * 这三个数中最大的那个，就是我们要求的 dpMax[i+1]
+         *
+         * 同样的这三个数中最小的那个，就是我们要求的 dpMin[i+1]
          */
         int[] dpMin = new int[nums.length];
 
+        int currentMax = Integer.MIN_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                dpMax[0] = nums[0];
+                dpMin[0] = nums[0];
+                currentMax = dpMax[0];
+            } else {
+                dpMax[i] = Math.max(nums[i], Math.max(dpMin[i-1] * nums[i], dpMax[i-1] * nums[i]));
+                dpMin[i] = Math.min(nums[i], Math.min(dpMin[i - 1] * nums[i], dpMax[i - 1] * nums[i]));
+                if (dpMax[i] > currentMax) {
+                    currentMax = dpMax[i];
+                }
+            }
+        }
+        return currentMax;
     }
 
     public static void main(String[] args) {
