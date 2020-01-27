@@ -52,7 +52,7 @@ public class Solution {
                 dpMin[0] = nums[0];
                 currentMax = dpMax[0];
             } else {
-                dpMax[i] = Math.max(nums[i], Math.max(dpMin[i-1] * nums[i], dpMax[i-1] * nums[i]));
+                dpMax[i] = Math.max(nums[i], Math.max(dpMin[i - 1] * nums[i], dpMax[i - 1] * nums[i]));
                 dpMin[i] = Math.min(nums[i], Math.min(dpMin[i - 1] * nums[i], dpMax[i - 1] * nums[i]));
                 if (dpMax[i] > currentMax) {
                     currentMax = dpMax[i];
