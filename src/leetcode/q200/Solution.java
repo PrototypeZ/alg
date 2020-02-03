@@ -61,7 +61,7 @@ public class Solution {
                         Point point = queue.poll();
                         int r = point.row;
                         int c = point.col;
-                        System.out.println("current point, row:" + r + ", col:" + c);
+//                        System.out.println("current point, row:" + r + ", col:" + c);
                         // top
                         if (r > 0 && grid[r - 1][c] == '1' && !traveled[r - 1][c]) {
                             queue.add(new Point(r - 1, c));
@@ -99,24 +99,21 @@ public class Solution {
                 if (!traveled[i][j] && grid[i][j] == '1') {
                     count++;
                     Stack<DfsStackItem> stack = new Stack<>();
-                    stack.push(new DfsStackItem(i, j, DfsStackItem.LEFT));
+                    stack.push(new DfsStackItem(i, j, false));
                     traveled[i][j] = true;
                     while (!stack.isEmpty()) {
                         DfsStackItem stackItem = stack.pop();
-                        switch (stackItem.index) {
-                            case DfsStackItem.TOP:
-
-                                break;
-                            case DfsStackItem.RIGHT:
-
-                                break;
-                            case DfsStackItem.BOTTOM:
-
-                                break;
-                            case DfsStackItem.LEFT:
-                            default:
-                                stack.push(new DfsStackItem(i, j,  ));
-                                break;
+                        if (!stackItem.visited) {
+                            stackItem.visited = true;
+                            stack.push(stackItem);
+                            // left
+                            checkToPushToStack(stackItem.row, stackItem.col - 1, grid, traveled, stack);
+                            // bottom
+                            checkToPushToStack(stackItem.row + 1, stackItem.col, grid, traveled, stack);
+                            // right
+                            checkToPushToStack(stackItem.row, stackItem.col + 1, grid, traveled, stack);
+                            // top
+                            checkToPushToStack(stackItem.row - 1, stackItem.col, grid, traveled, stack);
                         }
                     }
                 }
@@ -125,19 +122,22 @@ public class Solution {
         return count;
     }
 
+    private void checkToPushToStack(int row, int col, char[][] grid, boolean[][] traveled, Stack<DfsStackItem> stack) {
+        if (row >= 0 && row < grid.length && col >=0 && col < grid[0].length && !traveled[row][col] && grid[row][col] == '1') {
+            stack.push(new DfsStackItem(row, col, false));
+            traveled[row][col] = true;
+        }
+    }
+
     private class DfsStackItem {
-        public static final int TOP = 0;
-        public static final int RIGHT = 1;
-        public static final int BOTTOM = 2;
-        public static final int LEFT = 3;
         int row;
         int col;
-        int index;
+        boolean visited;
 
-        public DfsStackItem(int row, int col, int index) {
-            this.index = index;
+        public DfsStackItem(int row, int col, boolean visited) {
             this.row = row;
             this.col = col;
+            this.visited = visited;
         }
     }
 
