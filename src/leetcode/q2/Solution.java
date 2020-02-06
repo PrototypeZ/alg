@@ -1,17 +1,17 @@
 package leetcode.q2;
 
 /**
- * ��������?�ǿ� ������������ʾ�����Ǹ������������У����Ǹ��Ե�λ���ǰ���?����?�ķ�ʽ�洢�ģ��������ǵ�ÿ���ڵ�ֻ�ܴ洢?һλ?���֡�
+ * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
  * <p>
- * ��������ǽ��������������������᷵��һ���µ���������ʾ���ǵĺ͡�
+ * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
  * <p>
- * �����Լ���������� 0 ֮�⣬���������������� 0?��ͷ��
+ * 您可以假设除了数字 0 之外，这两个数都不会以 0?开头。
  * <p>
- * ʾ����
+ * 示例：
  * <p>
- * ���룺(2 -> 4 -> 3) + (5 -> 6 -> 4)
- * �����7 -> 0 -> 8
- * ԭ��342 + 465 = 807
+ * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+ * 输出：7 -> 0 -> 8
+ * 原因：342 + 465 = 807
  * <p>
  * Created by Jason on 2019/10/11/0011.
  */
@@ -41,7 +41,7 @@ public class Solution {
 
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        // ��λ
+        // 进位
         boolean enter = false;
         ListNode result = new ListNode(0);
         ListNode pointer = result;
@@ -62,6 +62,7 @@ public class Solution {
             }
             int testVal = l1CurrentVal + l2CurrentVal + (enter ? 1 : 0);
             enter = testVal > 9;
+            // testVal 的取值范围是 0 ~ 19, 19 的情况是 9+9+进位。
             pointer.next = new ListNode(testVal % 10);
             pointer = pointer.next;
         }

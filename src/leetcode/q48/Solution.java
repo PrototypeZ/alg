@@ -53,6 +53,22 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    /**
+     * 对于一个 n*n 的矩阵， 顺时针旋转 90 度相当于：
+     * 1. 先按 “左下 - 右上” 对称轴进行翻转
+     * 2. 按水平正中腰线进行翻转
+     *
+     * 扩展:
+     * 顺时针旋转 90 度相当于逆时针旋转 270 度
+     *
+     * 顺时针旋转 180 度（相当于逆时针旋转 180 度）
+     * 1. 按水平正中腰线进行翻转
+     * 2. 按垂直正中腰线进行翻转
+     *
+     * 顺时针旋转 270 度（逆时针旋转 90度）
+     * 1. 按 “左上 - 右下” 对称轴进行翻转
+     * 2. 按水平正中腰线进行翻转
+     */
     public void rotate(int[][] matrix) {
         // 先按 “左下-右上” 对称轴进行翻转
         for (int i = 0; i < matrix.length - 1; i++) {
@@ -63,7 +79,7 @@ public class Solution {
             }
         }
         // 再按矩阵自身水平正中腰线进行翻转
-        for (int i = 0; i <= (matrix.length % 2 == 1 ? (matrix.length - 1) / 2 - 1 : (matrix.length - 1) / 2); i++) {
+        for (int i = 0; i <= (matrix.length - 1) / 2; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 int tmp = matrix[i][j];
                 matrix[i][j] = matrix[matrix.length - 1 - i][j];
