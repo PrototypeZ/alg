@@ -1,18 +1,18 @@
 package leetcode.q11;
 
 /**
- * ¸ø¶¨ n ¸ö·Ç¸ºÕûÊý a1£¬a2£¬...£¬an£¬Ã¿¸öÊý´ú±í×ø±êÖÐµÄÒ»¸öµã?(i,?ai) ¡£ÔÚ×ø±êÄÚ»­ n Ìõ´¹Ö±Ïß£¬´¹Ö±Ïß i?µÄÁ½¸ö¶Ëµã·Ö±ðÎª?(i,?ai) ºÍ (i, 0)¡£ÕÒ³öÆäÖÐµÄÁ½ÌõÏß£¬Ê¹µÃËüÃÇÓë?x?Öá¹²Í¬¹¹³ÉµÄÈÝÆ÷¿ÉÒÔÈÝÄÉ×î¶àµÄË®¡£
+ * ç»™å®š n ä¸ªéžè´Ÿæ•´æ•° a1ï¼Œa2ï¼Œ...ï¼Œanï¼Œæ¯ä¸ªæ•°ä»£è¡¨åæ ‡ä¸­çš„ä¸€ä¸ªç‚¹?(i,?ai) ã€‚åœ¨åæ ‡å†…ç”» n æ¡åž‚ç›´çº¿ï¼Œåž‚ç›´çº¿ i?çš„ä¸¤ä¸ªç«¯ç‚¹åˆ†åˆ«ä¸º?(i,?ai) å’Œ (i, 0)ã€‚æ‰¾å‡ºå…¶ä¸­çš„ä¸¤æ¡çº¿ï¼Œä½¿å¾—å®ƒä»¬ä¸Ž?x?è½´å…±åŒæž„æˆçš„å®¹å™¨å¯ä»¥å®¹çº³æœ€å¤šçš„æ°´ã€‚
 
- ËµÃ÷£ºÄã²»ÄÜÇãÐ±ÈÝÆ÷£¬ÇÒ?n?µÄÖµÖÁÉÙÎª 2¡£
+ è¯´æ˜Žï¼šä½ ä¸èƒ½å€¾æ–œå®¹å™¨ï¼Œä¸”?n?çš„å€¼è‡³å°‘ä¸º 2ã€‚
 
- À´Ô´£ºÁ¦¿Û£¨LeetCode£©
- Á´½Ó£ºhttps://leetcode-cn.com/problems/container-with-most-water
- Öø×÷È¨¹éÁì¿ÛÍøÂçËùÓÐ¡£ÉÌÒµ×ªÔØÇëÁªÏµ¹Ù·½ÊÚÈ¨£¬·ÇÉÌÒµ×ªÔØÇë×¢Ã÷³ö´¦¡£
+ æ¥æºï¼šåŠ›æ‰£ï¼ˆLeetCodeï¼‰
+ é“¾æŽ¥ï¼šhttps://leetcode-cn.com/problems/container-with-most-water
+ è‘—ä½œæƒå½’é¢†æ‰£ç½‘ç»œæ‰€æœ‰ã€‚å•†ä¸šè½¬è½½è¯·è”ç³»å®˜æ–¹æŽˆæƒï¼Œéžå•†ä¸šè½¬è½½è¯·æ³¨æ˜Žå‡ºå¤„ã€‚
 
- Ê¾Àý:
+ ç¤ºä¾‹:
 
- ÊäÈë: [1,8,6,2,5,4,8,3,7]
- Êä³ö: 49
+ è¾“å…¥: [1,8,6,2,5,4,8,3,7]
+ è¾“å‡º: 49
 
 
  * Created by Jason on 2019/10/14/0014.

@@ -2,65 +2,65 @@ package leetcode.q10;
 
 /**
  *
- * ����һ���ַ���?s?��һ���ַ�����?p��������ʵ��һ��֧�� '.'?��?'*'?���������ʽƥ�䡣
+ * 给你一个字符串?s?和一个字符规律?p，请你来实现一个支持 '.'?和?'*'?的正则表达式匹配。
 
- '.' ƥ�����ⵥ���ַ�
- '*' ƥ���������ǰ�����һ��Ԫ��
- ��νƥ�䣬��Ҫ����?����?�ַ���?s�ģ������ǲ����ַ�����
+ '.' 匹配任意单个字符
+ '*' 匹配零个或多个前面的那一个元素
+ 所谓匹配，是要涵盖?整个?字符串?s的，而不是部分字符串。
 
- ˵��:
+ 说明:
 
- s?����Ϊ�գ���ֻ������?a-z?��Сд��ĸ��
- p?����Ϊ�գ���ֻ������?a-z?��Сд��ĸ���Լ��ַ�?.?��?*��
- ʾ�� 1:
+ s?可能为空，且只包含从?a-z?的小写字母。
+ p?可能为空，且只包含从?a-z?的小写字母，以及字符?.?和?*。
+ 示例 1:
 
- ����:
+ 输入:
  s = "aa"
  p = "a"
- ���: false
- ����: "a" �޷�ƥ�� "aa" �����ַ�����
- ʾ�� 2:
+ 输出: false
+ 解释: "a" 无法匹配 "aa" 整个字符串。
+ 示例 2:
 
- ����:
+ 输入:
  s = "aa"
  p = "a*"
- ���: true
- ����:?��Ϊ '*' ��������ƥ���������ǰ�����һ��Ԫ��, ������ǰ���Ԫ�ؾ��� 'a'����ˣ��ַ��� "aa" �ɱ���Ϊ 'a' �ظ���һ�Ρ�
- ʾ��?3:
+ 输出: true
+ 解释:?因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。
+ 示例?3:
 
- ����:
+ 输入:
  s = "ab"
  p = ".*"
- ���: true
- ����:?".*" ��ʾ��ƥ�����������'*'�������ַ���'.'����
- ʾ�� 4:
+ 输出: true
+ 解释:?".*" 表示可匹配零个或多个（'*'）任意字符（'.'）。
+ 示例 4:
 
- ����:
+ 输入:
  s = "aab"
  p = "c*a*b"
- ���: true
- ����:?��Ϊ '*' ��ʾ������������� 'c' Ϊ 0 ��, 'a' ���ظ�һ�Ρ���˿���ƥ���ַ��� "aab"��
- ʾ�� 5:
+ 输出: true
+ 解释:?因为 '*' 表示零个或多个，这里 'c' 为 0 个, 'a' 被重复一次。因此可以匹配字符串 "aab"。
+ 示例 5:
 
- ����:
+ 输入:
  s = "mississippi"
  p = "mis*is*p*."
- ���: false
+ 输出: false
 
 
- ��Դ�����ۣ�LeetCode��
- ���ӣ�https://leetcode-cn.com/problems/regular-expression-matching
- ����Ȩ������������С���ҵת������ϵ�ٷ���Ȩ������ҵת����ע��������
+ 来源：力扣（LeetCode）
+ 链接：https://leetcode-cn.com/problems/regular-expression-matching
+ 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  * Created by Jason on 2019/10/12/0012.
  */
 public class Solution {
 
     // region start: dp topDown
     public boolean isMatchDpTopDown(String s, String p) {
-        // memo[0][0] ������Ҫ���Ŀ��ֵ
-        // memo[s.length()][p.length()] ����Ϊ true�� ��ʱ���Ƚϵ� text �� pattern ��Ϊ��
-        // memo[s.length()][{value < p.length}] ��ȷ��������Ϊ true��Ҳ����Ϊ false
-        // memo[{value < s.length()}][p.length] ��ȻΪ false
+        // memo[0][0] 是我们要求的目标值
+        // memo[s.length()][p.length()] 定义为 true， 此时带比较的 text 和 pattern 都为空
+        // memo[s.length()][{value < p.length}] 不确定，可能为 true，也可能为 false
+        // memo[{value < s.length()}][p.length] 显然为 false
         Boolean[][] memo = new Boolean[s.length() + 1][p.length() + 1];
         return isMatchDpTopDownInternal(memo, 0, 0, s, p);
     }
@@ -71,7 +71,7 @@ public class Solution {
         }
         boolean result;
         /*
-        �����жϲ��ǲ��Եģ�������  text -> '', pattern -> '.*'
+        这样判断不是不对的，反例：  text -> '', pattern -> '.*'
         <code>
         if (i == text.length()) {
             return j == pattern.length();
@@ -101,33 +101,33 @@ public class Solution {
     // region match recall
     public boolean isMatchRecall(String s, String p) {
         if (p.isEmpty()) return s.isEmpty();
-        // s �� p �ӵ�һ���ַ���ʼ�� match��
-        // �������ֿ��ܣ�
-        // 1. p �ĵ�һ���ַ��� '.'�� �ǿ϶���������
-        // 2. p �ĵ�һ���ַ���ĺ� s �ĵ�һ���ַ�һ��
+        // s 和 p 从第一个字符开始就 match。
+        // 存在两种可能：
+        // 1. p 的第一个字符是 '.'， 那肯定满足条件
+        // 2. p 的第一个字符真的和 s 的第一个字符一样
         boolean first_match = (!s.isEmpty() &&
                 (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.'));
 
         if (p.length() >= 2 && p.charAt(1) == '*'){
             /**
-             * �ߵ������ʾ p ���ڵ��������ַ����� p �ڶ����ַ��� '*'
-             * ���Ƶ� p ���� 'a*'�� ˵�� '*'ǰ�Ĳ��ֿ����� s ��ͷ���� 0 ~ ����Ρ�
+             * 走到这里，表示 p 大于等于两个字符，且 p 第二个字符是 '*'
+             * 类似的 p 例如 'a*'， 说明 '*'前的部分可以在 s 开头出现 0 ~ 任意次。
              *
-             * ���� 0 �ε�����£���Ӧ���ж� s �� p �Ƿ���ȵı���ʽΪ isMatch(s, p.substring(2)
-             * ���ֶ�ε�����£� ��� p �� s match�� ��ô��
-             * 1. first_match ��Ϊ true
-             * 2. s ��ʹ�ص���ͷ��һ���ַ���ʣ�µĲ���Ӧ�û��Ǻ� p match
+             * 出现 0 次的情况下，对应的判断 s 和 p 是否相等的表达式为 isMatch(s, p.substring(2)
+             * 出现多次的情况下， 如果 p 和 s match， 那么：
+             * 1. first_match 避为 true
+             * 2. s 即使截掉开头第一个字符，剩下的部分应该还是和 p match
              *
              */
             return (isMatchRecall(s, p.substring(2)) ||
                     (first_match && isMatchRecall(s.substring(1), p)));
         } else {
             /**
-             * �ߵ������ʾ p С�������ַ���p �϶�ֻ��һ���ַ�����
-             * ���� p ���ڵ��������ַ������� p �ڶ����ַ����� '*'
+             * 走到这里，表示 p 小于两个字符（p 肯定只有一个字符），
+             * 或者 p 大于等于两个字符，但是 p 第二个字符不是 '*'
              *
-             * ע�⣺ p length 1 ��ʱ�� p.substring(1) Ϊ ""
-             * ���� return ����ʽ�൱�� first_match && isMatch(s.substring(1), "")
+             * 注意： p length 1 的时候， p.substring(1) 为 ""
+             * 所以 return 表达式相当于 first_match && isMatch(s.substring(1), "")
              */
             return first_match && isMatchRecall(s.substring(1), p.substring(1));
         }
