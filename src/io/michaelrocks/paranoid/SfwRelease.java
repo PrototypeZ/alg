@@ -17,6 +17,12 @@ package io.michaelrocks.paranoid;
 //    }
 //}
 
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SfwRelease {
     private static final String[] chunks;
 
@@ -31,7 +37,7 @@ public class SfwRelease {
         return DeobfuscatorHelper.getString(var0, chunks);
     }
 
-    private static long[] input = new long[] {
+    private static long[] input = new long[]{
             8726235136561750472L,
             8726232374897779144L,
             8726232400667582920L,
@@ -1068,10 +1074,53 @@ public class SfwRelease {
             8726252702977991112L,
     };
 
-    public static void main(String[] args) {
-//        System.out.println(SfwRelease.getString(8726221719083917768L));
+    public static void main(String[] args) throws FileNotFoundException {
+        String regex = "SfwRelease\\.getString\\([0-9]+L\\)";
+        Map<String, String> dic = new HashMap<>();
         for (long l : input) {
-            System.out.println(l + " : " +SfwRelease.getString(l));
+            System.out.println(l + ": " + SfwRelease.getString(l));
+            dic.put(String.valueOf(l), SfwRelease.getString(l));
+        }
+//            transformJavaFile(dic, new File("D:\\projects\\pandemic\\app\\src\\main\\java\\com\\awesapp\\isafe"));
+    }
+
+
+    private static void transformJavaFile(Map<String, String> dic, File folder) throws FileNotFoundException {
+        File[] files = folder.listFiles();
+        for (int i = 0; files != null && i < files.length; i++) {
+            File f = files[i];
+            if (f.isDirectory()) {
+                transformJavaFile(dic, f);
+            } else {
+                System.out.println("reading :" + f);
+                // read
+                java.util.Scanner s = new java.util.Scanner(new FileInputStream(f)).useDelimiter("\\A");
+                String text = s.hasNext() ? s.next() : "";
+
+                StringBuffer sb = new StringBuffer(); //use StringBuffer before Java 9
+                Pattern pattern = Pattern.compile("SfwRelease\\.getString\\([0-9]+L\\)");
+                Matcher m = pattern.matcher(text);
+
+                while (m.find()) {
+                    System.out.println(m);
+                    String matchedString = m.group(0).substring(21, 40);
+                    System.out.println("matchedString:" + matchedString);
+                    String value = dic.get(matchedString);
+                    if (value != null) {
+                        m.appendReplacement(sb, "\"" + value + "\"");
+                    }
+                }
+                m.appendTail(sb);
+
+                System.out.println(sb.toString());
+
+//                 write back
+                try (PrintWriter p = new PrintWriter(new FileOutputStream(f))) {
+                    p.println(sb.toString());
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 }
