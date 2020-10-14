@@ -1075,13 +1075,13 @@ public class SfwRelease {
     };
 
     public static void main(String[] args) throws FileNotFoundException {
-        String regex = "SfwRelease\\.getString\\([0-9]+L\\)";
-        Map<String, String> dic = new HashMap<>();
-        for (long l : input) {
-            System.out.println(l + ": " + SfwRelease.getString(l));
-            dic.put(String.valueOf(l), SfwRelease.getString(l));
-        }
-//            transformJavaFile(dic, new File("D:\\projects\\pandemic\\app\\src\\main\\java\\com\\awesapp\\isafe"));
+        System.out.println(SfwRelease.getString(8726237533153501640L));
+//        Map<String, String> dic = new HashMap<>();
+//        for (long l : input) {
+//            System.out.println(l + ": " + SfwRelease.getString(l));
+//            dic.put(String.valueOf(l), SfwRelease.getString(l));
+//        }
+//            transformJavaFile(dic, new File("/home/jason/localProj/pandemic/app/src/main/java/com/awesapp/isafe"));
     }
 
 
@@ -1116,7 +1116,7 @@ public class SfwRelease {
 
 //                 write back
                 try (PrintWriter p = new PrintWriter(new FileOutputStream(f))) {
-                    p.println(sb.toString());
+                    p.print(sb.toString());
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
