@@ -1,4 +1,4 @@
-package tree.reconstructByPreAndMiddle;
+package codingInterviews.tree.reconstructByPreAndMiddle;
 
 import util.TreeNode;
 import util.Util;

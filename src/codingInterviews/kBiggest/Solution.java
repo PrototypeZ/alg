@@ -1,6 +1,4 @@
-package array.kBiggest;
-
-import java.util.Arrays;
+package codingInterviews.kBiggest;
 
 /**
  * 在数组中找第 n 大的数

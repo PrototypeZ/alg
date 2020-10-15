@@ -1,4 +1,4 @@
-package linkedList.reverse;
+package codingInterviews.reverse;
 
 import util.ListNode;
 import util.Util;

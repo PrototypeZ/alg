@@ -1,4 +1,4 @@
-package tree.nextNode;
+package codingInterviews.tree.nextNode;
 
 import util.TreeNodeWithParent;
 
