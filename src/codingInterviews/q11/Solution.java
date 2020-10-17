@@ -10,7 +10,10 @@ package codingInterviews.q11;
  */
 public class Solution {
 
-    public int findItInternal(int[] array, int left, int right) {
+    public int findItInternalWithBug(int[] array, int left, int right) {
+        if (array[left] < array[right]) {
+            return array[left];
+        }
         if (left == right) {
             return left;
         } else if (left + 1 == right) {
@@ -26,6 +29,40 @@ public class Solution {
         }
     }
 
+    public int findItInternal(int[] array, int left, int right) {
+        if (left == right) {
+            return left;
+        } else if (left + 1 == right) {
+            return Math.min(array[left], array[right]);
+        } else {
+            if (array[left] < array[right]) {
+                return array[left];
+            } else if (array[left] > array[right]) {
+                // left < right - 1
+                int middle = (left + right) / 2;
+                if (array[middle] > array[right]) {
+                    return findItInternal(array, middle, right);
+                } else if (array[middle] < array[right]){
+                    return findItInternal(array, left, middle);
+                } else {
+                    // array[left] > array[middle] == array[right]
+                    return findItInternal(array, middle, right);
+                }
+            } else {
+                // array[left] == array[right]
+                int middle = (left + right) / 2;
+                if (array[middle] > array[right]) {
+                    return findItInternal(array, middle, right);
+                } else if (array[middle] < array[right]){
+                    return findItInternal(array, left, middle);
+                } else {
+                    // array[left] == array[middle] == array[right]
+                    return findItInternal(array, left + 1, right);
+                }
+            }
+        }
+    }
+
     public int findIt(int[] array) {
         return findItInternal(array, 0, array.length - 1);
     }
@@ -34,5 +71,7 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution.findIt(new int[]{3, 4, 5, 1, 2}));
+        System.out.println(solution.findIt(new int[]{1, 0, 1, 1, 1}));
+        System.out.println(solution.findIt(new int[]{1, 1, 1, 0, 1}));
     }
 }
