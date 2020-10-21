@@ -58,6 +58,7 @@ public class Solution {
     };
 
     public Node treeToDoublyList(Node root) {
+        if (root == null) return null;
         Node[] result = treeToDoublyListInternal(root);
         Node head = result[0];
         Node tail = result[1];
@@ -86,6 +87,7 @@ public class Solution {
             Node rightHead = result[0];
             Node rightTail = result[1];
             node.right = rightHead;
+            rightHead.left = node;
             tail = rightTail;
         } else {
             tail = node;
