@@ -1,7 +1,6 @@
 package codingInterviews.q33;
 
 public class Solution {
-    // todo unfinished
     private boolean verifyPostOrderInternal(int[] postOrder, int start, int end, int max, int min) {
         if (start == end) {
             return postOrder[start] >= min && postOrder[start] <= max;
@@ -35,7 +34,7 @@ public class Solution {
 
     public boolean verifyPostorder(int[] postorder) {
         if (postorder.length == 0) {
-            return false;
+            return true;
         } else if (postorder.length == 1) {
             return true;
         } else {
@@ -49,5 +48,6 @@ public class Solution {
         System.out.println(solution.verifyPostorder(new int[]{1, 6, 3, 2, 5})); // false
         System.out.println(solution.verifyPostorder(new int[]{1, 3, 2, 6, 5})); // true
         System.out.println(solution.verifyPostorder(new int[]{4, 8, 6, 12, 16, 14, 10})); //true
+        System.out.println(solution.verifyPostorder(new int[]{})); //true
     }
 }
