@@ -2,51 +2,59 @@ package codingInterviews.q26;
 
 import util.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
- * �������ö�����A��B���ж�B�ǲ���A���ӽṹ��(Լ��������������һ�������ӽṹ)
+ * 输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
 
- B��A���ӽṹ�� �� A���г��ֺ�B��ͬ�Ľṹ�ͽڵ�ֵ��
+ B是A的子结构， 即 A中有出现和B相同的结构和节点值。
 
- ����:
- �������� A:
+ 例如:
+ 给定的树 A:
 
  ? ? ?3
  ? ? / \
  ? ?4 ? 5
  ? / \
  ?1 ? 2
- �������� B��
+ 给定的树 B：
 
  ? ?4?
  ? /
  ?1
- ���� true����Ϊ B �� A ��һ������ӵ����ͬ�Ľṹ�ͽڵ�ֵ��
+ 返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。
 
- ʾ�� 1��
+ 示例 1：
 
- ���룺A = [1,2,3], B = [3,1]
- �����false
- ʾ�� 2��
+ 输入：A = [1,2,3], B = [3,1]
+ 输出：false
+ 示例 2：
 
- ���룺A = [3,4,5,1,2], B = [4,1]
- �����true
- ���ƣ�
+ 输入：A = [3,4,5,1,2], B = [4,1]
+ 输出：true
+ 限制：
 
- 0 <= �ڵ���� <= 10000
+ 0 <= 节点个数 <= 10000
 
- ��Դ�����ۣ�LeetCode��
- ���ӣ�https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof
- ����Ȩ������������С���ҵת������ϵ�ٷ���Ȩ������ҵת����ע��������
+ 来源：力扣（LeetCode）
+ 链接：https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof
+ 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  * Created by Jason on 2020/10/25/0025.
  */
 public class Solution {
 
-
+    /**
+     *
+     * 在解决 A 是否有一个 B 的子结构前，先引入一个新的概念， A 是否包含 B, 定义见 isTreeAContainsTreeB
+     * 然后对 A 进行先序/中序/后序遍历，遍历中间过程中发现某个节点等于B根节点，判断此节点对应的子树是否包含 B，
+     * 若是，找到，退出遍历，若否，继续遍历，若遍历结束还未找到，则不包含子结构。
+     *
+     * 时间复杂度 M*N
+     *
+     * @param A
+     * @param B
+     * @return
+     */
     public boolean isSubStructure(TreeNode A, TreeNode B) {
         if (A == null || B == null) {
             return false;
@@ -56,6 +64,15 @@ public class Solution {
 
     }
 
+    /**
+     * A 是否包含 B？
+     * 1. 如果 B 为空， 无论 A 是否为空，A 包含 B
+     * 2. 如果 A 为空， B 不为空， 则 A 不包含 B
+     * 3. 如果 A，B 都不为空，A 和 B 节点一样，A 的左子树包含 B 的左子树且 A 的右子树包含 B 的右子树， 则 A 包含 B
+     * @param treeA
+     * @param treeB
+     * @return
+     */
     private boolean isTreeAContainsTreeB(TreeNode treeA, TreeNode treeB) {
         if (treeB == null) return true;
         if (treeA == null) return false;
@@ -67,15 +84,20 @@ public class Solution {
     }
 
     public boolean preOrderTraversal(TreeNode root, TreeNode pattern) {
+        // 先序遍历先节点
         if (root.val == pattern.val) {
             boolean result = isTreeAContainsTreeB(root, pattern);
             if (result) return true;
         }
+        // 先序遍历左子树
         if (root.left != null) {
+            // 递归调用先序遍历
             boolean result = preOrderTraversal(root.left, pattern);
             if (result) return true;
         }
+        // 先序遍历右子树
         if (root.right != null) {
+            // 递归调用心虚遍历
             boolean result = preOrderTraversal(root.right, pattern);
             if (result) return true;
         }
