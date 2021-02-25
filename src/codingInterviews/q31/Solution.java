@@ -34,6 +34,14 @@ import java.util.Stack;
  */
 public class Solution {
 
+    /**
+     * 思路就是我新建一个栈，来模拟这个情况，能模拟出来，就说明可以，模拟不出来就不可以。
+     *
+     * 从 popped 入手，依次判断 popped 能否由 push 序列弹出而来
+     * @param pushed
+     * @param popped
+     * @return
+     */
     public boolean validateStackSequences(int[] pushed, int[] popped) {
         if (pushed == null || popped == null) {
             return false;
@@ -44,23 +52,36 @@ public class Solution {
         if (pushed.length != popped.length) {
             return false;
         }
+        // 新建一个栈来模拟出栈入栈的情况
         Stack<Integer> stack = new Stack<>();
+        // 指向将要入栈的元素
         int pushedPointer = 0;
+        // 指向将要出栈的元素
         int poppedPointer = 0;
 
         while (poppedPointer < popped.length) {
+            // 指向
             int testPopped = popped[poppedPointer];
+            // 注意：在模拟过程中，stack 可能存在多次为空的状态，不仅仅是刚开始的时候
+            // 例如入栈{1,2,3} , 出栈{1,2,3}。（每次栈空才入栈）
+            // 所以 while 中有 `stack.empty()` 的条件
             while (stack.empty() || stack.peek() != testPopped) {
+                // 假如当前栈指向的元素和 testPopped 不一样，只能通过从 pushed 序列 push 元素进栈，
+                // 然后继续判断(不能 pop，pop就直接无法模拟我们要测试的情况了)。如果直到把整个 pushed 序列
+                // 都 push 进栈的过程中，都无法满足栈顶和 testPopped 一样，说明无法模拟
                 if (pushedPointer <= pushed.length - 1) {
+                    // 还能从 pushed 里面 push 进栈
                     stack.push(pushed[pushedPointer++]);
                 } else {
+                    // pushed 里面元素已经全 push 了，但是当前指向的 testPopped 元素还没验证，所以肯定无法模拟了
                     return false;
                 }
             }
+            // 成功模拟一次 popped 序列中的一个出栈元素， poppedPointer 向后移动一位，尝试模拟下一个出栈元素
             stack.pop();
             poppedPointer++;
         }
-
+        // 所有 popped 元素都被模拟成功，说明满足条件，返回 true
         return true;
     }
 
