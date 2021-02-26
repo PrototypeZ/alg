@@ -5,6 +5,7 @@ import util.TreeNode;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -51,7 +52,7 @@ public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> result = new ArrayList<>();
         if (root != null) {
-            pathSumInternal(root, sum, new LinkedList<>(), result);
+            pathSumInternal(root, sum, new Stack<>(), result);
         }
         return result;
     }
@@ -65,35 +66,29 @@ public class Solution {
      * @param currentPath 在遍历当前根节点之前已经走过的路径
      * @param result 全局的结果
      */
-    private void pathSumInternal(TreeNode root, int sum, List<Integer> currentPath, List<List<Integer>> result) {
+    private void pathSumInternal(TreeNode root, int sum, Stack<Integer> currentPath, List<List<Integer>> result) {
+        // 尝试把当前节点纳入测试路径
+        currentPath.push(root.val);
         int valueLeft = sum - root.val;
         if (root.left == null && root.right == null) {
-            // leaf node 到达叶子节点了
+            // 当前节点已经是叶子节点，
             if (valueLeft == 0) {
-                // path found
-                currentPath.add(root.val);
+                // 且 valueLeft 为 0 ,符合要求的路径已找到
                 result.add(new ArrayList<>(currentPath));
-                currentPath.remove(currentPath.size() - 1);
             }
-            // else 分支省略，因为如果 valueLeft 不为 0 说明这条路是错的，不要走这条路
-            // 同时也不要对 currentPath 进行修改
+            // 如果 valueLeft != 0，说明当前路径不符要求，什么都不用做，等待最后当前节点从当前路径被弹出即可
         } else {
-            // not leaf node 非叶子节点
+            // 非叶子节点
             if (root.left != null) {
-                // 路径往左下前进一步
-                currentPath.add(root.val);
                 pathSumInternal(root.left, valueLeft, currentPath, result);
-                // 回溯
-                currentPath.remove(currentPath.size() - 1);
             }
             if (root.right != null) {
-                // 路径往右下前进一步
-                currentPath.add(root.val);
                 pathSumInternal(root.right, valueLeft, currentPath, result);
-                // 回溯
-                currentPath.remove(currentPath.size() - 1);
             }
         }
+        // 回溯，很重要的一点是，对 currentPath 必须无副作用，即函数执行一开始 currentPath 什么值，
+        // 那么函数执行结束后 currentPath 还是什么值
+        currentPath.pop();
     }
 
 
@@ -112,12 +107,12 @@ public class Solution {
         root.right.right.right = new TreeNode(1);
 
         Solution solution = new Solution();
-        System.out.println(solution.pathSum(root, 22));
+        System.out.println(solution.pathSum(root, 22));//[[5, 4, 11, 2], [5, 8, 4, 5]]
 
 
         TreeNode root2 = new TreeNode(-2);
         root2.left = new TreeNode(-3);
-        System.out.println(solution.pathSum(root2, -5));
+        System.out.println(solution.pathSum(root2, -5));//[[-2, -3]]
 
 
         TreeNode root3 = new TreeNode(1);
@@ -130,7 +125,7 @@ public class Solution {
         root3.right.right = null;
 
         root3.left.left.left = new TreeNode(-1);
-        System.out.println(solution.pathSum(root3, -1));
+        System.out.println(solution.pathSum(root3, -1));//[[1, -2, 1, -1]]
 
     }
 }
