@@ -2,7 +2,6 @@ package codingInterviews.q36;
 
 /**
  *
- * // todo not ok
  * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。
  *
  *  
@@ -55,7 +54,7 @@ public class Solution {
             left = _left;
             right = _right;
         }
-    };
+    }
 
     public Node treeToDoublyList(Node root) {
         if (root == null) return null;
@@ -69,6 +68,9 @@ public class Solution {
 
     /**
      * 给定一个二叉查找树的根节点，把这个二叉查找水变成双向链表，并且返回头节点和尾节点
+     * 由二叉查找树的性质，左子树都比根节点小，右子树都比根节点大，
+     * 所以最后的链表，左子树的所有节点肯定在根节点左边，右子树所有节点肯定在根节点右边，
+     * 而左子树和右子树也是二叉查找树，所以可以递归执行上面的逻辑
      * @param node 根节点
      * @return
      */
@@ -102,6 +104,20 @@ public class Solution {
     }
 
     public static void main(String[] args) {
+        Solution solution = new Solution();
 
+        Node root = new Node(4);
+        root.left = new Node(2);
+        root.right = new Node(5);
+
+        root.left.left = new Node(1);
+        root.left.right = new Node(3);
+
+        Node head = solution.treeToDoublyList(root);
+        Node current = head;
+        do {
+            System.out.printf("%s <- (%s)-> %s%n", current.left.val, current.val, current.right.val);
+            current = current.right;
+        } while (current != head);
     }
 }
