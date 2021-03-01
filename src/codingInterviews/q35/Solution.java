@@ -28,6 +28,15 @@ public class Solution {
         }
     }
 
+    /**
+     * 如果没有 random 指针的存在，那么只要从头指针开始依次往后复制即可
+     * 但是由于 random 指针的存在，在复制过程中，简单复制 random 指针，会导致 random 指针指向老的链表的节点
+     * 我们需要让新链表中节点的 random 指针指向新链表中的节点。
+     *
+     * 我们构造一个 map， key 为老链表中的节点， value 为新链表中的节点即可
+     * @param head 头指针
+     * @return
+     */
     public Node copyRandomList(Node head) {
         if (head == null) return null;
         Map<Node, Node> oldNewMap = new HashMap<>();
@@ -38,6 +47,7 @@ public class Solution {
         while (current != null) {
             Node newCurrent = oldNewMap.get(current);
 
+            // 复制 next 指针
             if (current.next != null) {
                 Node newNext = oldNewMap.get(current.next);
                 if (newNext == null) {
@@ -47,6 +57,7 @@ public class Solution {
                 newCurrent.next = newNext;
             }
 
+            // 复制 random 指针
             if (current.random != null) {
                 Node newRandom = oldNewMap.get(current.random);
                 if (newRandom == null) {
