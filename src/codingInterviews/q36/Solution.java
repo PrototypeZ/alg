@@ -67,6 +67,11 @@ public class Solution {
         return head;
     }
 
+    /**
+     * 给定一个二叉查找树的根节点，把这个二叉查找水变成双向链表，并且返回头节点和尾节点
+     * @param node 根节点
+     * @return
+     */
     private Node[] treeToDoublyListInternal(Node node) {
 
         Node head, tail;
