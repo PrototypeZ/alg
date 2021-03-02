@@ -54,6 +54,60 @@ public class Solution {
     }
 
 
+
+    private int numberCountsByDigits(int n){
+        // 1 -> 10, 2 -> 90, 3-> 900, 4 -> 9000
+        if (n == 1) {
+            return 10;
+        } else {
+            return (int) (9 * Math.pow(10, n - 1)) * n;
+        }
+    }
+
+    private int firstNumberByDigits(int n) {
+        if (n == 1) {
+            return 0;
+        } else {
+            return (int) Math.pow(10, n - 1);
+        }
+    }
+
+    public int findNthDigit2(int n) {
+        int testDigits = 1;
+        int sum = 0 ;
+        int lastSum;
+        do {
+            lastSum = sum;
+            int counts = numberCountsByDigits(testDigits);
+            if (counts <= Integer.MAX_VALUE - sum) {
+                sum += counts;
+                testDigits ++;
+            } else {
+                testDigits ++;
+                break;
+            }
+        } while (sum < n + 1);
+
+        testDigits --;
+
+        if (sum == n + 1) {
+            return 9;
+        } else {
+            int numbersBefore = (n + 1 - lastSum) / testDigits;
+            int bit = (n + 1 - lastSum) % testDigits;
+            int firstNumber = firstNumberByDigits(testDigits);
+            if (bit == 0) {
+                char[] chars = String.valueOf(firstNumber + numbersBefore - 1).toCharArray();
+                return Integer.parseInt(Character.toString(chars[chars.length - 1]));
+            } else {
+                char[] chars = String.valueOf(firstNumber + numbersBefore).toCharArray();
+                return Integer.parseInt(Character.toString(chars[bit - 1]));
+            }
+
+        }
+    }
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution.findNthDigit(0)); // 0
@@ -64,5 +118,17 @@ public class Solution {
         System.out.println(solution.findNthDigit(12)); // 1
         System.out.println(solution.findNthDigit(13)); // 1
         System.out.println(solution.findNthDigit(1000000000));
+
+        System.out.println();
+
+        System.out.println(solution.findNthDigit2(0)); // 0
+        System.out.println(solution.findNthDigit2(1)); // 1
+        System.out.println(solution.findNthDigit2(3)); // 3
+        System.out.println(solution.findNthDigit2(10)); // 1
+        System.out.println(solution.findNthDigit2(11)); // 0
+        System.out.println(solution.findNthDigit2(12)); // 1
+        System.out.println(solution.findNthDigit2(13)); // 1
+        System.out.println(solution.findNthDigit2(100)); // 5
+        System.out.println(solution.findNthDigit2(1000000000)); // 1
     }
 }
