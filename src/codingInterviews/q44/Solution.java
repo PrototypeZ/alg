@@ -20,6 +20,8 @@ public class Solution {
         // 1 -> 10, 2 -> 90*2, 3-> 900*3, 4 -> 9000*4
         if (n == 1) {
             return 10;
+        } else if (n > 8) {
+            return Integer.MAX_VALUE;
         } else {
             return (int) (9 * Math.pow(10, n - 1)) * n;
         }
@@ -42,24 +44,29 @@ public class Solution {
      * 假设第 n + 1 个数落在 2 位数的范围内，那么 n + 1 <= 所有 1 位数的位数总和 + 所有 2 位数的位数总和
      * 假设第 n + 1 个数落在 3 位数的范围内，那么 n + 1 <= 所有 1 位数的位数总和 + 所有 2 位数的位数总和 + 所有 3 位数的位数总和
      *
-     * @param n
+     * @param n 显然 n 的取值范围是 [0, Integer.MAX_VALUE]，所以要特别注意 n 的溢出
      * @return
      */
     public int findNthDigit2(int n) {
-
-        int count = n + 1;
+        // 因为 n 可能取值到 Integer.MAX_VALUE, 所以 n + 1 可能溢出，所以用 nCopy 代替 count
+        int nCopy = n;
+//        int count = n + 1;
         int digits = 1;
-        while (count >= 0) {
-            count -= numberCountsByDigits(digits);
-            if (count == 0) return 9;
+//        while (count >= 0) {
+        while (nCopy >= -1) {
+//            count -= numberCountsByDigits(digits);
+            nCopy -= numberCountsByDigits(digits);
+//            if (count == 0) return 9;
+            if (nCopy == -1) return 9;
             digits++;
         }
         // below count < 0
-
+        digits--;
         // 在 digits 位数里，第一个数字。例如两位数的第一个数是10，三位数的第一个数是 100
         int firstNumInDigits = firstNumberByDigits(digits);
         // 要求的第 count 位数，在 digits 位数，所组合而成的数字流中，是第几个数
-        int positionInCurrentDigitsNumber = numberCountsByDigits(digits) + count;
+//        int positionInCurrentDigitsNumber = numberCountsByDigits(digits) + count;
+        int positionInCurrentDigitsNumber = numberCountsByDigits(digits) + nCopy + 1;
 
         int bits = positionInCurrentDigitsNumber % digits;
         int number;
