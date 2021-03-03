@@ -16,47 +16,8 @@ import java.util.Map;
  */
 public class Solution {
 
-    // todo solution not ok
-    public int findNthDigit(int n) {
-        if (n == 0) return 0;
-        if (9 >= n && n > 0) return n;
-        int bit = 2;
-        int accumulated = 10;
-        while (n + 1 > accumulated) {
-            accumulated += pow10(bit - 1) * 9 * bit;
-            bit++;
-        }
-        bit = bit - 1;
-        int lastAccumulated = accumulated - (pow10( bit - 1) * 9 * bit);
-        int theNNumberOfBit = (n + 1 - lastAccumulated) / bit;
-        int left = (n + 1 - lastAccumulated) % bit;
-        int theStartNumOfBit = pow10(bit - 1);
-        if (left == 0) {
-            String s = String.valueOf(theNNumberOfBit + theStartNumOfBit - 1);
-            return s.charAt(s.length() - 1) - '0';
-        } else {
-            return String.valueOf(theNNumberOfBit + theStartNumOfBit).charAt((n + 1 - lastAccumulated) % bit - 1) - '0';
-        }
-    }
-
-    private Map<Integer, Integer> powCache = new HashMap<>();
-
-    private int pow10(int e) {
-        if (powCache.containsKey(e)) {
-            return powCache.get(e);
-        } else if (e == 0) {
-            return 1;
-        } else {
-            int result =  pow10(e / 2) * pow10(e / 2) * (e % 2 == 0 ? 1 : 10);
-            powCache.put(e, result);
-            return result;
-        }
-    }
-
-
-
     private int numberCountsByDigits(int n){
-        // 1 -> 10, 2 -> 90, 3-> 900, 4 -> 9000
+        // 1 -> 10, 2 -> 90*2, 3-> 900*3, 4 -> 9000*4
         if (n == 1) {
             return 10;
         } else {
@@ -72,38 +33,126 @@ public class Solution {
         }
     }
 
+
+    /**
+     * 解法 2：
+     *
+     * 由于 n 从 0 开始算，那么第 n 个数，其实是第 n + 1 个数。
+     * 假设第 n + 1 个数落在 1 位数的范围内，那么 n + 1 <= 所有 1 位数的位数总和
+     * 假设第 n + 1 个数落在 2 位数的范围内，那么 n + 1 <= 所有 1 位数的位数总和 + 所有 2 位数的位数总和
+     * 假设第 n + 1 个数落在 3 位数的范围内，那么 n + 1 <= 所有 1 位数的位数总和 + 所有 2 位数的位数总和 + 所有 3 位数的位数总和
+     *
+     * @param n
+     * @return
+     */
     public int findNthDigit2(int n) {
-        int testDigits = 1;
-        int sum = 0 ;
-        int lastSum;
+
+        int count = n + 1;
+        int digits = 1;
+        while (count >= 0) {
+            count -= numberCountsByDigits(digits);
+            if (count == 0) return 9;
+            digits++;
+        }
+        // below count < 0
+
+        // 在 digits 位数里，第一个数字。例如两位数的第一个数是10，三位数的第一个数是 100
+        int firstNumInDigits = firstNumberByDigits(digits);
+        // 要求的第 count 位数，在 digits 位数，所组合而成的数字流中，是第几个数
+        int positionInCurrentDigitsNumber = numberCountsByDigits(digits) + count;
+
+        int bits = positionInCurrentDigitsNumber % digits;
+        int number;
+        if (bits == 0) {
+            number = firstNumInDigits + positionInCurrentDigitsNumber / digits - 1;
+            return Integer.parseInt(Character.toString(String.valueOf(number).toCharArray()[digits - 1]));
+        } else {
+            number = firstNumInDigits + positionInCurrentDigitsNumber / digits;
+            return Integer.parseInt(Character.toString(String.valueOf(number).toCharArray()[bits - 1]));
+        }
+    }
+
+    /**
+     * 解法 1：
+     * @param n
+     * @return
+     */
+    public int findNthDigit(int n) {
+        boolean nIsMaxValue = false;
+        if (n < 0) {
+            throw new IllegalArgumentException("n < 0");
+        } else if (n == Integer.MAX_VALUE) {
+            n = n - 1;
+            nIsMaxValue = true;
+        }
+
+
+        Map<Integer, Integer> cache = new HashMap<>();
+        cache.put(1, numberCountsByDigits(1));
+        int i = 2;
+        int value;
+        int valueMaxThreshold;
+        int sum = cache.get(1);
         do {
-            lastSum = sum;
-            int counts = numberCountsByDigits(testDigits);
-            if (counts <= Integer.MAX_VALUE - sum) {
-                sum += counts;
-                testDigits ++;
+            value = numberCountsByDigits(i);
+            // 通过 numberCountsByDigits 这个方法计算出的数组，从 2 开始后面的元素与前面的元素都是有规律的，1 特殊一点
+            // 也就是说从 2 开始，已知前一个，可以推出后一个，假如我已知前一个，而且这个数还没溢出，我就可以判断下一个数有没有溢出
+            // 方法就是我假设下一个是 Integer.MAX_VALUE，以此推出当前最大不能超过多少，然后实际看一下是否超出，
+            // 超出的话，说明下一个肯定要溢出了，没超出说明下一个不会溢出
+            valueMaxThreshold = (int)(Integer.MAX_VALUE / (10.0d * (i + 1)) * i);
+            // 除了判断下一个算出的数有没有可能溢出，
+            boolean nextValueWillOverflow = false;
+            if (value > valueMaxThreshold ) {
+                nextValueWillOverflow = true;
+            }
+
+            // 还要判断，当前算出的结果与之前算出的所有结果累加是否也溢出
+            if (value <= Integer.MAX_VALUE - sum) {
+                sum += value;
+                cache.put(i, sum);
+                if (nextValueWillOverflow) {
+                    // 虽然当前的 sum 没有溢出，但是下个 value 要溢出，所以下一轮循环没必要进行了
+                    break;
+                } else {
+                    // 当前 sum 没溢出，下个 value 也不会溢出，可以进行下一轮测试
+                    i++;
+                }
             } else {
-                testDigits ++;
+                // 当前的 sum 已经要溢出了，所以不算了，退出循环
                 break;
             }
-        } while (sum < n + 1);
+        } while (true);
 
-        testDigits --;
+        int testDigits = 1;
 
-        if (sum == n + 1) {
-            return 9;
-        } else {
-            int numbersBefore = (n + 1 - lastSum) / testDigits;
-            int bit = (n + 1 - lastSum) % testDigits;
-            int firstNumber = firstNumberByDigits(testDigits);
-            if (bit == 0) {
+        while (cache.get(testDigits) != null && cache.get(testDigits) <= n + 1) {
+            if (cache.get(testDigits) == n + 1) {
+                return 9;
+            }
+            testDigits++;
+        }
+
+        int lastSum = testDigits > 1 ? cache.get(testDigits - 1) : 0;
+
+        int numbersBefore = (n + 1 - lastSum) / testDigits;
+        int bit = (n + 1 - lastSum) % testDigits;
+        int firstNumber = firstNumberByDigits(testDigits);
+        if (bit == 0) {
+            if (nIsMaxValue) {
+                char[] chars = String.valueOf(firstNumber + numbersBefore).toCharArray();
+                return Integer.parseInt(Character.toString(chars[0]));
+            } else {
                 char[] chars = String.valueOf(firstNumber + numbersBefore - 1).toCharArray();
                 return Integer.parseInt(Character.toString(chars[chars.length - 1]));
+            }
+        } else {
+            if (nIsMaxValue) {
+                char[] chars = String.valueOf(firstNumber + numbersBefore).toCharArray();
+                return Integer.parseInt(Character.toString(chars[bit]));
             } else {
                 char[] chars = String.valueOf(firstNumber + numbersBefore).toCharArray();
                 return Integer.parseInt(Character.toString(chars[bit - 1]));
             }
-
         }
     }
 
@@ -117,7 +166,9 @@ public class Solution {
         System.out.println(solution.findNthDigit(11)); // 0
         System.out.println(solution.findNthDigit(12)); // 1
         System.out.println(solution.findNthDigit(13)); // 1
-        System.out.println(solution.findNthDigit(1000000000));
+        System.out.println(solution.findNthDigit(100)); // 5
+        System.out.println(solution.findNthDigit(1000000000)); // 1
+        System.out.println(solution.findNthDigit(2147483647)); // 2
 
         System.out.println();
 
@@ -130,5 +181,6 @@ public class Solution {
         System.out.println(solution.findNthDigit2(13)); // 1
         System.out.println(solution.findNthDigit2(100)); // 5
         System.out.println(solution.findNthDigit2(1000000000)); // 1
+        System.out.println(solution.findNthDigit2(2147483647)); // 2
     }
 }
