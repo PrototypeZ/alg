@@ -31,7 +31,8 @@ package codingInterviews.q16;
  */
 public class Solution {
 
-
+    // x 的几个特殊情况，0， -1， 1，
+    // 尤其是 0,0 的负次幂无意义
     public double myPow(double x, int n) {
 
         if (x == 1) {
@@ -49,6 +50,8 @@ public class Solution {
 
         // x != 0 x != 1 x != -1
         if (n < 0) {
+            // 比较坑的地方， Integer.MIN_VALUE 的绝对值比 Integer.MAX_VALUE 的绝对值大 1
+            // 所以简单套用下面 else 的情况会导致溢出
             if (n == Integer.MIN_VALUE) {
                 return 1 / myPow(x, Integer.MAX_VALUE) * (1d / x);
             } else {
@@ -57,7 +60,7 @@ public class Solution {
         } else if (n == 0) {
             return 1;
         } else {
-            // n > 0
+            // n > 0, 最正常的情况
             if (n == 1) {
                 return x;
             }
