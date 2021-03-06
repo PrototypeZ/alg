@@ -1,30 +1,129 @@
 package codingInterviews.q12;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 /**
- * ÇëÉè¼ÆÒ»¸öº¯Êı£¬ÓÃÀ´ÅĞ¶ÏÔÚÒ»¸ö¾ØÕóÖĞÊÇ·ñ´æÔÚÒ»Ìõ°üº¬Ä³×Ö·û´®ËùÓĞ×Ö·ûµÄÂ·¾¶¡£Â·¾¶¿ÉÒÔ´Ó¾ØÕóÖĞµÄÈÎÒâÒ»¸ñ¿ªÊ¼£¬Ã¿Ò»²½¿ÉÒÔÔÚ¾ØÕóÖĞÏò×ó¡¢ÓÒ¡¢ÉÏ¡¢ÏÂÒÆ¶¯Ò»¸ñ¡£Èç¹ûÒ»ÌõÂ·¾¶¾­¹ıÁË¾ØÕóµÄÄ³Ò»¸ñ£¬ÄÇÃ´¸ÃÂ·¾¶²»ÄÜÔÙ´Î½øÈë¸Ã¸ñ×Ó¡£ÀıÈç£¬ÔÚÏÂÃæµÄ3¡Á4µÄ¾ØÕóÖĞ°üº¬Ò»Ìõ×Ö·û´®¡°bfce¡±µÄÂ·¾¶£¨Â·¾¶ÖĞµÄ×ÖÄ¸ÓÃ¼Ó´Ö±ê³ö£©¡£
+ * è¯·è®¾è®¡ä¸€ä¸ªå‡½æ•°ï¼Œç”¨æ¥åˆ¤æ–­åœ¨ä¸€ä¸ªçŸ©é˜µä¸­æ˜¯å¦å­˜åœ¨ä¸€æ¡åŒ…å«æŸå­—ç¬¦ä¸²æ‰€æœ‰å­—ç¬¦çš„è·¯å¾„ã€‚è·¯å¾„å¯ä»¥ä»çŸ©é˜µä¸­çš„ä»»æ„ä¸€æ ¼å¼€å§‹ï¼Œæ¯ä¸€æ­¥å¯ä»¥åœ¨çŸ©é˜µä¸­å‘å·¦ã€å³ã€ä¸Šã€ä¸‹ç§»åŠ¨ä¸€æ ¼ã€‚å¦‚æœä¸€æ¡è·¯å¾„ç»è¿‡äº†çŸ©é˜µçš„æŸä¸€æ ¼ï¼Œé‚£ä¹ˆè¯¥è·¯å¾„ä¸èƒ½å†æ¬¡è¿›å…¥è¯¥æ ¼å­ã€‚ä¾‹å¦‚ï¼Œåœ¨ä¸‹é¢çš„3Ã—4çš„çŸ©é˜µä¸­åŒ…å«ä¸€æ¡å­—ç¬¦ä¸²â€œbfceâ€çš„è·¯å¾„ï¼ˆè·¯å¾„ä¸­çš„å­—æ¯ç”¨åŠ ç²—æ ‡å‡ºï¼‰ã€‚
 
  [["a","b","c","e"],
  ["s","f","c","s"],
  ["a","d","e","e"]]
 
- µ«¾ØÕóÖĞ²»°üº¬×Ö·û´®¡°abfb¡±µÄÂ·¾¶£¬ÒòÎª×Ö·û´®µÄµÚÒ»¸ö×Ö·ûbÕ¼¾İÁË¾ØÕóÖĞµÄµÚÒ»ĞĞµÚ¶ş¸ö¸ñ×ÓÖ®ºó£¬Â·¾¶²»ÄÜÔÙ´Î½øÈëÕâ¸ö¸ñ×Ó¡£
+ ä½†çŸ©é˜µä¸­ä¸åŒ…å«å­—ç¬¦ä¸²â€œabfbâ€çš„è·¯å¾„ï¼Œå› ä¸ºå­—ç¬¦ä¸²çš„ç¬¬ä¸€ä¸ªå­—ç¬¦bå æ®äº†çŸ©é˜µä¸­çš„ç¬¬ä¸€è¡Œç¬¬äºŒä¸ªæ ¼å­ä¹‹åï¼Œè·¯å¾„ä¸èƒ½å†æ¬¡è¿›å…¥è¿™ä¸ªæ ¼å­ã€‚
 
- Ê¾Àı 1£º
+ ç¤ºä¾‹ 1ï¼š
 
- ÊäÈë£ºboard = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
- Êä³ö£ºtrue
- Ê¾Àı 2£º
+ è¾“å…¥ï¼šboard = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+ è¾“å‡ºï¼štrue
+ ç¤ºä¾‹ 2ï¼š
 
- ÊäÈë£ºboard = [["a","b"],["c","d"]], word = "abcd"
- Êä³ö£ºfalse
+ è¾“å…¥ï¼šboard = [["a","b"],["c","d"]], word = "abcd"
+ è¾“å‡ºï¼šfalse
 
- À´Ô´£ºÁ¦¿Û£¨LeetCode£©
- Á´½Ó£ºhttps://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof
- Öø×÷È¨¹éÁì¿ÛÍøÂçËùÓĞ¡£ÉÌÒµ×ªÔØÇëÁªÏµ¹Ù·½ÊÚÈ¨£¬·ÇÉÌÒµ×ªÔØÇë×¢Ã÷³ö´¦¡£
+ æ¥æºï¼šåŠ›æ‰£ï¼ˆLeetCodeï¼‰
+ é“¾æ¥ï¼šhttps://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof
+ è‘—ä½œæƒå½’é¢†æ‰£ç½‘ç»œæ‰€æœ‰ã€‚å•†ä¸šè½¬è½½è¯·è”ç³»å®˜æ–¹æˆæƒï¼Œéå•†ä¸šè½¬è½½è¯·æ³¨æ˜å‡ºå¤„ã€‚
  * Created by Jason on 2020/10/17/0017.
  */
 class Solution {
-    // »ØËİ
+
+    /**
+     * è¿™ç§è§£æ³•ä¸ä¼šå°½å¿«ç»“æŸæŸ¥æ‰¾ï¼Œä¼šæ‰¾å‡ºæ‰€æœ‰ç§å¯èƒ½ï¼Œæ‰€ä»¥æ•ˆç‡æ¯”ç¬¬ä¸€ç§ä½ï¼Œæ•°æ®é‡å¤§çš„æ—¶å€™å®¹æ˜“è¶…å‡ºæ—¶é—´é™åˆ¶
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist2(char[][] board, String word) {
+        if (word == null || word.equals("")) {
+            return false;
+        }
+        if (board == null) {
+            return false;
+        }
+        boolean[][] visited = new boolean[board.length][];
+        for (int i = 0; i < board.length; i++) {
+            visited[i] = new boolean[board[i].length];
+        }
+        ArrayList<Stack<int[]>> result = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                // å¯ä»¥æ”¹ä¸ºæ•ˆç‡é«˜çš„å½¢å¼ï¼Œä¸€æ—¦ found è¿”å› trueï¼Œç«‹åˆ»è¿”å› true
+                boolean found = existInternal2(board, word, 0, i, j, visited,
+                        new Stack<>(), result);
+            }
+        }
+        return result.size() > 0;
+    }
+
+    /**
+     * if (bottomFind) return true;
+     * è¿™äº›è¯­å¥å»æ‰å°±æ˜¯æ•ˆç‡ä½ï¼Œä½†æ˜¯å¯ä»¥æ‰¾å‡ºæ‰€æœ‰æƒ…å†µçš„è§£æ³•ï¼Œ
+     * ç°åœ¨è¿™ç§è§£æ³•æ˜¯åªè¦æ‰¾åˆ°ä¸€æ¡è·¯å¾„å°±ç«‹åˆ»è¿”å›æˆåŠŸ
+     */
+    public boolean existInternal2(char[][] board, String word, int pointer, int testX, int testY,
+                                  boolean[][] visited, Stack<int[]> path, List<Stack<int[]>> results) {
+
+        if (testX < 0 || testX >= board.length || testY < 0 || testY >= board[testX].length) {
+            return false;
+        }
+        if (visited[testX][testY]) {
+            return false;
+        }
+
+        char target = word.charAt(pointer);
+        if (target != board[testX][testY]) return false;
+        if (pointer == word.length() - 1) {
+            // lastTest
+            results.add(path);
+            return true;
+        }
+
+        // pointer < word.length() - 1
+
+        visited[testX][testY] = true;
+        path.push(new int[]{testX, testY});
+
+        boolean leftFind;
+        boolean topFind;
+        boolean rightFind;
+        boolean bottomFind;
+        // top
+
+        topFind = existInternal2(board, word, pointer + 1,
+                testX - 1, testY,
+                visited, path, results);
+        if (topFind) return true;
+
+        // left
+
+        leftFind = existInternal2(board, word, pointer + 1,
+                testX, testY - 1,
+                visited, path, results);
+        if (leftFind) return true;
+
+        // right
+
+        rightFind = existInternal2(board, word, pointer + 1,
+                testX, testY + 1,
+                visited, path, results);
+        if (rightFind) return true;
+
+        // bottom
+        bottomFind = existInternal2(board, word, pointer + 1,
+                testX + 1, testY,
+                visited, path, results);
+        if (bottomFind) return true;
+
+        path.pop();
+        visited[testX][testY] = false;
+
+        return false;
+    }
+
+
+    // å›æº¯
     public boolean exist(char[][] board, String word) {
         boolean[][] path = new boolean[board.length][];
         for (int i = 0; i < board.length; i++) {
@@ -41,9 +140,7 @@ class Solution {
     }
 
     public boolean existsInternal(char[][] board, boolean[][] path, String word, int pointerInWord, int testX, int testY) {
-        if (board[testX][testY] != word.charAt(pointerInWord)) {
-            return false;
-        } else {
+        if (board[testX][testY] == word.charAt(pointerInWord)) {
             path[testX][testY] = true;
             if (pointerInWord == word.length() - 1) {
                 return true;
@@ -68,9 +165,9 @@ class Solution {
 
             // back-tracking
             path[testX][testY] = false;
-            return false;
 
         }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -92,6 +189,29 @@ class Solution {
         ));
 
         System.out.println(solution.exist(
+                new char[][]{
+                        new char[]{'a', 'b'},
+                },
+                "ba"
+        ));
+
+        System.out.println(solution.exist2(
+                new char[][]{
+                        new char[]{'A', 'B', 'C', 'E'},
+                        new char[]{'S', 'F', 'C', 'S'},
+                        new char[]{'A', 'D', 'E', 'E'}
+                },
+                "ABCCED"
+        ));
+        System.out.println(solution.exist2(
+                new char[][]{
+                        new char[]{'a', 'b'},
+                        new char[]{'c', 'd'},
+                },
+                "ABCCED"
+        ));
+
+        System.out.println(solution.exist2(
                 new char[][]{
                         new char[]{'a', 'b'},
                 },
