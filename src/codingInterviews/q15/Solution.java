@@ -50,7 +50,15 @@ public class Solution {
      * 2. 补码，符号位不变，剩余位都求反，并加一
      * 4. 假设 8 位补码，正数最大 01111111 -> 127, 负数最大 10000000 -> -128
      * 5. 0 的补码 00000000, 1 的补码 0000001, -1 的补码 11111111
-     * @param data
+     *
+     *
+     * 1.continueFlag  初始化为 00000001，
+     *
+     * 2. 如果 continueFlag 不为 0
+     * 3. 与被测数字与操作，如果结果和 continueFlag 相等，说明末尾 1 位位子上是 1，如果是，计数器加一
+     * 4. continueFlag 随后向左移位，跳转到 2
+     *
+     * @param data 被测数字
      * @return
      */
     public int calculate(int data) {
