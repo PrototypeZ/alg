@@ -30,13 +30,18 @@ public class Solution {
             int j = right;
 
             while (i < j) {
+                // 因为最后希望 left right 之间的数组呈现出 base 左边都比 base 小， base 右边都比 base 大
+                // 所以先通过循环找出 base 右边比 base 小的，挪到左边去（注意点是循环中也要维持 j > i 这个条件）
                 while (array[j] >= base && j > i) j--;
                 array[i] = array[j];
 
+                // 再通过循环找出 base 左边比 base 大的，挪到右边去（注意点是循环中也要维持 j > i 这个条件）
                 while (array[i] <= base && j > i) i++;
                 array[j] = array[i];
-            }
 
+                // 如此循环，直到 i == j
+            }
+            // 再把这个位置填上 base，完美
             array[i] = base;
             if (i - 1 > left) {
                 quickSortInternal(array, left, i - 1);
