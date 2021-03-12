@@ -10,6 +10,7 @@ public class Solution2 {
 
 
     public ListNode reverse(ListNode head) {
+        // 边界情况处理
         if (head == null) {
             return null;
         }
@@ -19,12 +20,15 @@ public class Solution2 {
         head.next = null;
 
         while (current != null) {
+            // 保存下一个节点，因为下面的操作会覆盖这个指针
             ListNode tmp = current.next;
+            // 反转指针
             current.next = pre;
+            // 为下一次循环准备
             pre = current;
             current = tmp;
         }
-
+        // 最后循环退出的时候，current == null，所以反转后的头指针是 pre
         return pre;
     }
 
