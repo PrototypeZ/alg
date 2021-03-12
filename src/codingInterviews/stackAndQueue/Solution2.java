@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 两个队列模拟一个栈
+ * 涓や釜闃熷垪妯℃嫙涓�涓爤
  * Created by Jason on 2020/10/15/0015.
  */
 public class Solution2 {

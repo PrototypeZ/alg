@@ -3,7 +3,7 @@ package codingInterviews.stackAndQueue;
 import java.util.Stack;
 
 /**
- * ������ջʵ��һ������
+ * 用两个栈实现一个队列
  * Created by Jason on 2020/10/15/0015.
  */
 public class Solution {
@@ -18,10 +18,12 @@ public class Solution {
 
         T deleteHead() {
             if (stack2.isEmpty()) {
+                // 如果 stack2 是空的，把 stack1 中所有元素弹出并 push 到 stack2
                 while (!stack1.empty()) {
                     stack2.push(stack1.pop());
                 }
             }
+            // 当些个元素入栈一个stack，从这个stack弹出，再入栈新的一个栈，
             return stack2.pop();
         }
     }
